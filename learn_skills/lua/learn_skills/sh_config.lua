@@ -1,3 +1,7 @@
-net.Receive("learn_skill_open", function()
-    LocalPlayer():ChatPrint("message")
-end)
+Learn_Skills = {}
+
+Learn_Skills.UserGroup = {
+    ["superadmin"] = true,
+    ["helper"] = true,
+    ["super-admin"] = true
+} 

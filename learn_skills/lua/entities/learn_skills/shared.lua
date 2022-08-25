@@ -1,6 +1,6 @@
 ENT.Type = "anim";
 ENT.Base = "base_entity"
-ENT.PrintName = "Skill Learn"
+ENT.PrintName = "Learn Skills"
 ENT.Author = "Linventif"
 ENT.Category = "Linventif"
 ENT.Spawnable = true
