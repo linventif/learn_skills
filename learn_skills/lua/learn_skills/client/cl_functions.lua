@@ -1,1 +1,3 @@
---note
+--function naruto_skills(table)
+--
+--end

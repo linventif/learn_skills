@@ -16,7 +16,6 @@ function ENT:Initialize()
     end
 end
 
-function ENT:Use(activator, caller)
-    net.Start("learn_skill_open")
-    net.Send(activator)
+function ENT:Use(ply, caller)
+    naruto_skills(ply, caller)
 end

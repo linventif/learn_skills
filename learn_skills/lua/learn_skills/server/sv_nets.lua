@@ -1,4 +1,4 @@
-util.AddNetworkString("learn_skill_open")
+util.AddNetworkString("naruto_skills")
 util.AddNetworkString("naruto_cmd")
 util.AddNetworkString("naruto_message")
 util.AddNetworkString("naruto_table")
@@ -76,7 +76,7 @@ net.Receive("naruto_cmd", function(len, ply)
                 end
             
                 file.Write("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", util.TableToJSON(table))
-                naruto_table(traget_ply, table)
+                naruto_table(net_var.traget_ply, table)
             elseif net_var.cmd == "naruto_chakra_add" then
                 table_data.Chakra = table_data.Chakra + net_var.value
                 file.Write("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", util.TableToJSON(table_data))
@@ -103,14 +103,4 @@ net.Receive("naruto_cmd", function(len, ply)
     else
         naruto_notif(ply, "Acces Refuser", 1, 4)
     end
-end)
-
-net.Receive("learn_skill_open", function()
-    LocalPlayer():ChatPrint("message")
-end)
-
-net.Receive("naruto_chakra_set", function(len, ply)
-end)
-
-net.Receive("naruto_chakra_reset", function(len, ply)
 end)
