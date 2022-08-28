@@ -20,7 +20,7 @@ function naruto_table(ply, table)
     net.Send(ply) 
 end
 
-function naruto_skills(ply, caller)
+function naruto_skills(ply)
 --    if file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") then
 --        local table_data = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
 --        
@@ -39,5 +39,39 @@ function naruto_skills(ply, caller)
 --    else
 --        naruto_notif(ply, "Erreur Data Serveur", 1, 4)
 --    end
-print("ok")
+    net.Start("naruto_skills")
+    net.Send(ply) 
 end
+
+function naruto_skills_admin(ply)
+    local table = {}
+    for i, v in ipairs(player.GetAll()) do
+        if file.Exists("linventif/learn_skills/players/" .. v:SteamID64() .. ".json", "data") then
+            local table_ply = {
+                [tostring(v:SteamID64())] = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. v:SteamID64() .. ".json", "DATA"))
+            }
+            PrintTable(table_ply)
+            print(" - - ")
+            table.Add(table_ply, table)
+            PrintTable(table)
+            print(" - - ")
+        else
+            naruto_notif(ply, "Erreur Data Serveur", 1, 4)
+        end
+    end
+    net.Start("naruto_skills_admin")
+    net.WriteTable(table)
+    net.Send(ply) 
+end
+
+
+local table = {
+    ["Chakra"]  =  853,
+    ["Nature"]  =  "Doton"
+}
+local table_2 = {
+    ["Chakra"]  =  000,
+    ["Nature"]  =  "DAton"
+}
+table.Add(table_2, table)
+PrintTable(table_2)

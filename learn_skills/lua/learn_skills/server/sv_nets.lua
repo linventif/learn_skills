@@ -1,5 +1,7 @@
 util.AddNetworkString("naruto_skills")
 util.AddNetworkString("naruto_cmd")
+util.AddNetworkString("naruto_ply_info")
+util.AddNetworkString("naruto_skills_admin")
 util.AddNetworkString("naruto_message")
 util.AddNetworkString("naruto_table")
 
@@ -18,9 +20,8 @@ net.Receive("naruto_cmd", function(len, ply)
             if net_var.cmd == "naruto_reset" then
                 local table = {
                     ["Nature"]  = math.random(1, 5),
-                    ["Chakra"]  = math.random(600, 1000),
-                    ["Weapons"] = {}
-                }
+                    ["Chakra"]  = math.random(600, 1000)
+                } 
     
                 if table.Nature == 1 then
                     table.Nature = math.random(1, 50)

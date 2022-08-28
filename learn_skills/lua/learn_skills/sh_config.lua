@@ -2,6 +2,28 @@ Learn_Skills = {}
 
 Learn_Skills.Text = "Table des Techinques"
 
+Learn_Skills.Commands_Chat = {
+    ["/skill"] = true,
+    ["!skill"] = true,
+    ["/skills"] = true,
+    ["!skills"] = true,
+    ["/techniques"] = true,
+    ["!techniques"] = true,
+    ["/technique"] = true,
+    ["!technique"] = true
+}
+
+Learn_Skills.Commands_Chat_Admin = {
+    ["/skill_admin"] = true,
+    ["!skill_admin"] = true,
+    ["/skills_admin"] = true,
+    ["!skills_admin"] = true,
+    ["/techniques_admin"] = true,
+    ["!techniques_admin"] = true,
+    ["/technique_admin"] = true,
+    ["!technique_admin"] = true
+}
+
 Learn_Skills.Version = 1
 
 Learn_Skills.UI_Color = {
@@ -106,6 +128,3 @@ Learn_Skills.Technical = {
 --        }
 --    }
 }
-
-
-PrintTable(Learn_Skills.Technical)

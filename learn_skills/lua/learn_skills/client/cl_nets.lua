@@ -19,52 +19,60 @@ net.Receive("naruto_table", function()
 end)
 
 net.Receive("naruto_skills", function()
+    print("OK")
+end)
 
-    local Main_Frame = vgui.Create("DFrame")
-    Main_Frame:SetSize(Learn_Skills.Size.x, Learn_Skills.Size.y)
-    Main_Frame:Center()
-    Main_Frame:SetTitle("Naruto Skills by Linventif")
-    Main_Frame:MakePopup()
-    Main_Frame:SetDraggable(true)
-    Main_Frame:ShowCloseButton(false)
-    Main_Frame.Paint = function(s, w, h)
-        draw.RoundedBox(8, 0, 0, w, h, Learn_Skills.UI_Color.Background)
-        draw.RoundedBox(0, 0, 0, w, 23, Learn_Skills.UI_Color.Other)
-    end
-
-    local Button_Close = vgui.Create("DButton", Main_Frame)
-    Button_Close:SetText("")
-    Button_Close:SetPos(Learn_Skills.Size.x-25, 0)
-    Button_Close:SetSize(25, 25)
-    Button_Close:SetIcon("icon16/cross.png")
-    Button_Close.DoClick = function()
-    	Main_Frame:Close()
-    end
-    Button_Close.Paint = function(s, w, h)
-        draw.RoundedBox(0, 0, 0, w, h, Learn_Skills.UI_Color.Transparent)
-    end
-    
-    local Second_Frame = vgui.Create("DFrame", Main_Frame )
-    Second_Frame:SetSize(300, 600)
-    Second_Frame:SetPos(10, 35)
-    Second_Frame:SetTitle("Armes")
-    Second_Frame:SetDraggable(false)
-    Second_Frame:ShowCloseButton(false)
-    Second_Frame.Paint = function(s, w, h)
-        draw.RoundedBox(0, 0, 0, w, h, Learn_Skills.UI_Color.Other)
-    end
-
-    local AppList = vgui.Create( "DListView", Second_Frame )
-    AppList:Dock( FILL )
-    AppList:SetMultiSelect( false )
-    AppList:AddColumn( "Technique" )
-    AppList:AddColumn( "Temps Nécésaire" )
-    
-    for k, v in pairs(table.Weapons) do 
-        AppList:AddLine(v)
-    end
-
-    AppList.OnRowSelected = function( lst, index, pnl )
-    	print( "Selected " .. pnl:GetColumnText( 1 ) .. " ( " .. pnl:GetColumnText( 2 ) .. " ) at index " .. index )
-    end
+net.Receive("naruto_skills_admin", function()
+--    local Naruto_Info = vgui.Create("DFrame")
+--    Naruto_Info:SetSize(Learn_Skills.Size.x, Learn_Skills.Size.y)
+--    Naruto_Info:Center()
+--    Naruto_Info:SetTitle("Naruto Skills by Linventif")
+--    Naruto_Info:MakePopup()
+--    Naruto_Info:SetDraggable(true)
+--    Naruto_Info:ShowCloseButton(false)
+--    Naruto_Info.Paint = function(s, w, h)
+--        draw.RoundedBox(8, 0, 0, w, h, Learn_Skills.UI_Color.Background)
+--        draw.RoundedBox(0, 0, 0, w, 23, Learn_Skills.UI_Color.Other)
+--    end
+--
+--    local Close = vgui.Create("DButton", Naruto_Info)
+--    Close:SetText("")
+--    Close:SetPos(Learn_Skills.Size.x-25, 0)
+--    Close:SetSize(25, 25)
+--    Close:SetIcon("icon16/cross.png")
+--    Close.DoClick = function()
+--        Naruto_Info:Close()
+--    end
+--    Close.Paint = function(s, w, h)
+--        draw.RoundedBox(0, 0, 0, w, h, Learn_Skills.UI_Color.Transparent)
+--    end
+--
+--    local ply_list = vgui.Create("DFrame", Naruto_Info)
+--    ply_list:SetSize(300, 500)
+--    ply_list:SetTitle("Joueurs")
+--    ply_list:SetPos(27, 50)
+--    ply_list:ShowCloseButton(false)
+--    ply_list:SetDraggable(false)
+--
+--    local DScrollPanel = vgui.Create("DScrollPanel", ply_list)
+--    DScrollPanel:Dock(FILL)naruto_skills
+--
+--    local ply_info = vgui.Create( "DFrame", Naruto_Info)
+--    ply_info:SetSize( 600, 500 )
+--    ply_info:SetTitle("Joueurs")
+--    ply_info:SetPos(Learn_Skills.Size.x-627, 50)
+--    ply_info:ShowCloseButton(false)
+--    ply_info:SetDraggable(false)
+--
+--    local Wang = vgui.Create("DNumberWang", ply_info)
+--    Wang:SetPos(85, 25)
+--    Wang:SetSize(45, 26)
+--    Wang:SetMin(0)
+--    Wang:SetMax(100)
+--
+--    Wang.OnValueChanged = function(self)
+--    	print(self:GetValue())
+--    end
+--
+PrintTable(net.ReadTable())
 end)

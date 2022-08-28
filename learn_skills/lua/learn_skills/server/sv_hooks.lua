@@ -2,8 +2,7 @@ hook.Add("PlayerInitialSpawn", "Learn_Skill_Player_Init", function(ply)
     if !file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") then
         local table = {
             ["Nature"] = math.random(1, 5),
-            ["Chakra"] = math.random(600, 1000),
-            ["Weapons"] = {}
+            ["Chakra"] = math.random(600, 1000)
         }
         
         if file.Exists("lddschakra/" .. ply:SteamID64() .. ".txt", "data") then
@@ -69,14 +68,27 @@ hook.Add("PlayerInitialSpawn", "Learn_Skill_Player_Init", function(ply)
     end
 end)
 
-hook.Add("PlayerSpawn", "Load_Perma_Weapon", function(ply)
+hook.Add("PlayerSpawn", "Naruto_Perma_Weapons", function(ply)
     if file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") then
         local table_import = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
-
-    for k, v in ipairs(table_import.Weapons) do
-            ply:Give(v)
+        if table_import.Weapons then
+            for k, v in ipairs(table_import.Weapons) do
+                ply:Give(v)
+            end
         end
     else
         naruto_notif(ply, "Erreur Data Serveur", 1, 4)
-    end
+    end    
+end)
+
+hook.Add( "PlayerSay", "naruto_skills", function(ply, text)
+	if Learn_Skills.Commands_Chat[string.lower(text)] then
+        naruto_skills(ply)
+	end
+end)
+
+hook.Add( "PlayerSay", "naruto_skills_admin", function(ply, text)
+	if Learn_Skills.Commands_Chat_Admin[string.lower(text)] and Learn_Skills.UserGroup[ply:GetUserGroup()] then
+        naruto_skills_admin(ply)
+	end
 end)
