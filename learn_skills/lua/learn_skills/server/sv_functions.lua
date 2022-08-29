@@ -44,34 +44,18 @@ function naruto_skills(ply)
 end
 
 function naruto_skills_admin(ply)
-    local table = {}
+    local table_data = {}
     for i, v in ipairs(player.GetAll()) do
         if file.Exists("linventif/learn_skills/players/" .. v:SteamID64() .. ".json", "data") then
             local table_ply = {
-                [tostring(v:SteamID64())] = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. v:SteamID64() .. ".json", "DATA"))
+                [v] = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. v:SteamID64() .. ".json", "DATA"))
             }
-            PrintTable(table_ply)
-            print(" - - ")
-            table.Add(table_ply, table)
-            PrintTable(table)
-            print(" - - ")
+            table.Merge(table_data, table_ply)
         else
             naruto_notif(ply, "Erreur Data Serveur", 1, 4)
         end
     end
     net.Start("naruto_skills_admin")
-    net.WriteTable(table)
+    net.WriteTable(table_data)
     net.Send(ply) 
 end
-
-
-local table = {
-    ["Chakra"]  =  853,
-    ["Nature"]  =  "Doton"
-}
-local table_2 = {
-    ["Chakra"]  =  000,
-    ["Nature"]  =  "DAton"
-}
-table.Add(table_2, table)
-PrintTable(table_2)
