@@ -1,4 +1,4 @@
-local function net_to_server(cmd, traget_ply, value)
+--[[local function net_to_server(cmd, traget_ply, value)
     net.Start("naruto_cmd")
     net.WriteString(cmd)
     net.WriteEntity(traget_ply)
@@ -147,4 +147,4 @@ end)
 concommand.Add("mon_steamid", function(ply, cmd, args)
     ply:ChatPrint("Steam ID : " .. ply:SteamID() .. "         Steam ID 64 : " .. ply:SteamID64())
     print("Steam ID : " .. ply:SteamID() .. "         Steam ID 64 : " .. ply:SteamID64())
-end)
+end)]]

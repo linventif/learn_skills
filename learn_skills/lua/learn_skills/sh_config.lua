@@ -43,18 +43,42 @@ Learn_Skills.UserGroup = {
     ["super-admin"]     =   true
 }
 
+Learn_Skills.BoostGroup = {
+    ["superadmin"]      =   true,
+    ["helper"]          =   true,
+    ["super-admin"]     =   true
+}
+
 Learn_Skills.Team = {
     ["Instructeur - Ko"]      =    true,
     ["Instructeur - Ki"]       =    true
 }
 
 Learn_Skills.Technical = {
-    Futton = {
-        ["weapon_357"] = {
-            Name = "357 Mag",
-            Time = 10
-        }
+    ["Commun"] = {
+        ["weapon_crowbar"] = true,
+        ["weapon_frag"] = true
+        --["weapon_357"] = {
+        --     ["Name"] = "357 Mag",
+        --     ["Time"] = 10
+        --},
+        --["weapon_358"] = {
+        --    ["Name"] = "3587 Mag",
+        --    ["Time"] = 10
+        --},
     },
+    ["Futton"] = {
+        ["weapon_357"] = true,
+        ["weapon_pistol"] = true
+        --["weapon_357"] = {
+        --     ["Name"] = "357 Mag",
+        --     ["Time"] = 10
+        --},
+        --["weapon_358"] = {
+        --    ["Name"] = "3587 Mag",
+        --    ["Time"] = 10
+        --},
+    }
 --    Jiton_Doree = {
 --        "weapon_357" = {
 --            "Name" = "357 Mag",

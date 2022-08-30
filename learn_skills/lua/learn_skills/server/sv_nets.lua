@@ -1,10 +1,9 @@
 util.AddNetworkString("naruto_skills")
-util.AddNetworkString("naruto_cmd")
-util.AddNetworkString("naruto_ply_info")
 util.AddNetworkString("naruto_skills_admin")
 util.AddNetworkString("naruto_message")
 util.AddNetworkString("naruto_table")
-
+--[[
+util.AddNetworkString("naruto_cmd")
 net.Receive("naruto_cmd", function(len, ply)
     if (ply:IsPlayer() and Learn_Skills.UserGroup[ply:GetUserGroup()]) then
         local net_var = {}
@@ -77,7 +76,7 @@ net.Receive("naruto_cmd", function(len, ply)
                 end
             
                 file.Write("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", util.TableToJSON(table))
-                naruto_table(net_var.traget_ply, table)
+                naruto_notif(net_var.traget_ply, false, false, false, table)
             elseif net_var.cmd == "naruto_chakra_add" then
                 table_data.Chakra = table_data.Chakra + net_var.value
                 file.Write("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", util.TableToJSON(table_data))
@@ -95,7 +94,7 @@ net.Receive("naruto_cmd", function(len, ply)
                 file.Write("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", util.TableToJSON(table_data))
                 naruto_notif(net_var.traget_ply, "Un Staff vous a ajoutez un.e " .. net_var.value .. " de manière permanente.", 0, 4)
             elseif net_var.cmd == "naruto_info" then
-                naruto_table(ply, table_data)
+                naruto_notif(ply, false, false, false, table_data)
                 naruto_notif(ply, "Data reçus regarder votre console.", 0, 4)
             end
         else
@@ -105,3 +104,5 @@ net.Receive("naruto_cmd", function(len, ply)
         naruto_notif(ply, "Acces Refuser", 1, 4)
     end
 end)
+
+]]--
