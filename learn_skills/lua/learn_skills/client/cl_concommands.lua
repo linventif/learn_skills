@@ -1,23 +1,6 @@
---[[local function net_to_server(cmd, traget_ply, value)
-    net.Start("naruto_cmd")
-    net.WriteString(cmd)
-    net.WriteEntity(traget_ply)
-    if value then 
-        if isstring(value) then
-            net.WriteBool(true)
-            net.WriteString(value)
-        else
-            net.WriteBool(false)
-            net.WriteInt(value, 32)
-        end
-    end
-    net.SendToServer()
-end
+--[[
 
-local function message(string, notif, time)
-    notification.AddLegacy(string, notif, time)
-    print(string)
-end
+
  
 concommand.Add("naruto_reset", function(ply, cmd, args)
     if args[1] == nil then

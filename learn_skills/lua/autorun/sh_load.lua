@@ -30,7 +30,7 @@ if SERVER then
 
 	for k, v in ipairs(file.Find(folder .. "/server/*.lua", "LUA")) do
 		include(folder .. "/server/" .. v)
-	end 
+	end
 
 	for k, v in ipairs(file.Find(folder .. "/client/*.lua", "LUA")) do
 		AddCSLuaFile(folder .. "/client/" .. v)

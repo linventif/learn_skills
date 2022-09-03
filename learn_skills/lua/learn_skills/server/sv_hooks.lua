@@ -5,11 +5,6 @@ hook.Add("PlayerInitialSpawn", "Learn_Skill_Player_Init", function(ply)
             ["Chakra"] = math.random(600, 1000),
             ["Reroll"] = 2,
         }
-        
-        if file.Exists("lddschakra/" .. ply:SteamID64() .. ".txt", "data") then
-            local table_import = util.JSONToTable(file.Read("lddschakra/" .. args[1] .. ".txt", "DATA"))
-            table.CopyFromTo(table_import, table)
-        end
 
         if table.Nature == 1 then
             table.Nature = math.random(1, 50)
