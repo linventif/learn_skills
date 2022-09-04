@@ -17,7 +17,7 @@ end
 
 function naruto_skills(ply)
     if Learn_Skills.Team[team.GetName(ply:Team())] then
-        print("é")
+        naruto_skills_admin(ply)
     else
         if file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") then
             local table_data = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))

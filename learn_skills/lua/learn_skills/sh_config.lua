@@ -68,7 +68,7 @@ Learn_Skills.Technical = {
         ["futton_propulsion"] = true,
         ["futton_evaporation"] = true
     },
-    ["Jiton_Doree"] = {
+    ["Jiton Dorée"] = {
         ["jiton_protection_maternelle_2"] = true,
         ["jiton_suspension2"] = true,
         ["jiton_tombeau_du_desert_2"] = true
@@ -200,7 +200,7 @@ Learn_Skills.Technical = {
         ["suiton_onde"] = true,
         ["weapon_sound_gun_07"] = true
     },
-    ["Puple_Raiton"] = {
+    ["Puple Raiton"] = {
         ["purple_orbe_pourpre"] = true,
         ["purple_explosion_violette"] = true,
         ["purple_impulsion"] = true

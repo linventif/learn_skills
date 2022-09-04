@@ -1,6 +1,5 @@
-
-   --if Learn_Skills.Team[team.GetName(Entity(1):Team())] then
-   --    
-   --else
-   --    naruto_notif(ply, "Reserver aux Instructeur", 1, 4)
-   --end
+--concommand.Add("naruto_add_reroll", function()
+--    if SERVER then
+--        
+--    end
+--end)

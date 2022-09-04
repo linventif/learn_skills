@@ -8,65 +8,38 @@ util.AddNetworkString("naruto_reroll")
 net.Receive("naruto_reroll", function(len, ply)
     if file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") then
         local table = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
-        table.Nature = math.random(1, 5)
         if table.Reroll > 0 then
             table.Reroll = table.Reroll -1
+            table.Nature = math.random(1, 200)
             if table.Nature == 1 then
-                table.Nature = math.random(1, 50)
-                if table.Nature == 1 then
-                    table.Nature = "Futton"
-                elseif table.Nature == 2 then
-                    table.Nature = "Jiton_Dorée"
-                elseif table.Nature == 3 then
-                    table.Nature = "Jinton"
-                else
-                    table.Nature = "Futon" 
-                end
+                table.Nature = "Futton"
             elseif table.Nature == 2 then
-                table.Nature = math.random(1, 50)
-                if table.Nature == 1 then
-                    table.Nature = "Bakuton"
-                elseif table.Nature == 2 then
-                    table.Nature = "Jinton"
-                elseif table.Nature == 3 then
-                    table.Nature = "Shoton"
-                else
-                    table.Nature = "Doton"
-                end
+                table.Nature = "Jinton"
             elseif table.Nature == 3 then
-                table.Nature = math.random(1, 50)
-                if table.Nature == 1 then
-                    table.Nature = "Shakuton"
-                elseif table.Nature == 2 then
-                    table.Nature = "Jinton" 
-                else
-                    table.Nature = "Katon"
-                end
+                table.Nature = "Jiton Dorée"
             elseif table.Nature == 4 then
-                table.Nature = math.random(1, 50)
-                if table.Nature == 1 then
-                    table.Nature = "Ranton"
-                elseif table.Nature == 2 then
-                    table.Nature = "Futton"
-                else
-                    table.Nature = "Suiton"
-                end
+                table.Nature = "Shoton"
+            elseif table.Nature == 5 then
+                table.Nature = "Bakuton"
+            elseif table.Nature == 6 then
+                table.Nature = "Shakuton"
+            elseif table.Nature == 7 then
+                table.Nature = "Ranton"
+            elseif table.Nature == 8 then
+                table.Nature = "Puple Raiton"
+            elseif table.Nature > 8 and table.Nature < 47 then
+                table.Nature = "Futon"
+            elseif table.Nature > 46 and table.Nature < 85 then
+                table.Nature = "Doton"
+            elseif table.Nature > 84 and table.Nature < 121 then
+                table.Nature = "Katon"
+            elseif table.Nature > 120 and table.Nature < 161 then
+                table.Nature = "Suiton"
             else
-                table.Nature = math.random(1, 50)
-                if table.Nature == 1 then
-                    table.Nature = "Bakuton"
-                elseif table.Nature == 2 then
-                    table.Nature = "Ranton"
-                elseif table.Nature == 3 then
-                    table.Nature = "Puple_Raiton"
-                else
-                    table.Nature = "Raiton"
-                end
+                table.Nature = "Raiton"
             end
-            
-
             file.Write("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", util.TableToJSON(table))
-            naruto_notif(ply, "Vous avez utuliser un reroll vous êtes maintenant un " .. table.Nature .. " !", 1, 4)
+            naruto_notif(ply, "Vous avez utuliser un reroll vous êtes maintenant un " .. table.Nature .. " !", 0, 4)
         else
             naruto_notif(ply, "Vous n'avez pas assez de Reroll !", 1, 4)
         end

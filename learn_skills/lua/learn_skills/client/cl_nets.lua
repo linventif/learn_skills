@@ -15,7 +15,7 @@ surface.CreateFont( "Custom_Font_I", {
 	additive = false,
 	outline = false,
 })
-
+ 
 surface.CreateFont( "Custom_Font_II", {
 	font = "Open Sans", --  Use the font-name which is shown to you by your operating system Font Viewer, not the file name
 	extended = false,
@@ -83,20 +83,16 @@ net.Receive("naruto_table", function()
 end)
 
 net.Receive("naruto_skills", function()
-    
     local table_ply = net.ReadTable()
-
     local Naruto_Info = vgui.Create("DFrame")
     Naruto_Info:SetSize(800, 400)
     Naruto_Info:Center() 
-    --Naruto_Info:SetTitle("Naruto Skills by Linventif")
     Naruto_Info:SetTitle(" ")
     Naruto_Info:MakePopup()
     Naruto_Info:SetDraggable(true)
     Naruto_Info:ShowCloseButton(false)
     Naruto_Info.Paint = function(s, w, h)
         draw.RoundedBox(8, 0, 0, w, h, Learn_Skills.UI_Color.Background)
-        --draw.RoundedBox(0, 0, 0, w, 23, Learn_Skills.UI_Color.Other)
         draw.SimpleText("Vos Informations", "Custom_Font_II", 800/2, 30, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         draw.SimpleText("Chakra : " .. table_ply.Chakra, "Custom_Font_I", 30, 80, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
         draw.SimpleText("Nature : " .. table_ply.Nature, "Custom_Font_I", 230, 80, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
@@ -139,7 +135,6 @@ net.Receive("naruto_skills", function()
     end
 
     if table_ply.Weapons then
-        DScrollPanel:Clear()
         for b, n in ipairs(table_ply.Weapons) do
             local DLabelx = DScrollPanel:Add("DLabel")
             DLabelx:SetText(n)
@@ -198,38 +193,10 @@ net.Receive("naruto_skills", function()
         end
     end
 
---    local ply_listd = vgui.Create("DFrame", Naruto_Info)
---    ply_listd:SetSize(200, 200)
---    ply_listd:SetTitle("Technique Commun Aprenable")
---    ply_listd:SetPos(475, 180)
---    ply_listd:ShowCloseButton(false)
---    ply_listd:SetDraggable(false)
---    
---    local DScrollPanels = vgui.Create("DScrollPanel", ply_listd)
---    DScrollPanels:Dock(FILL)
---
---    if table_ply.Weapons then
---        DScrollPanels:Clear()
---        for b, n in ipairs(table_ply.Weapons) do
---            local DLabelx = DScrollPanels:Add("DLabel")
---            DLabelx:SetText(n)
---            DLabelx:Dock(TOP)
---            DLabelx:DockMargin(0, 0, 0, 5)
---        end
---    else
---        DScrollPanels:Clear()
---        local DLabelsx = DScrollPanels:Add("DLabel")
---        DLabelsx:SetText("n")
---        DLabelsx:Dock(TOP)
---        DLabelsx:DockMargin(0, 0, 0, 5)
---    end
-
-    
-
     local Button_1 = vgui.Create("DButton", Naruto_Info) 
     Button_1:SetText("Utuliser un Reroll")
     Button_1:SetFont("Custom_Font_III")
-    Button_1:SetPos(570, 120)
+    Button_1:SetPos(570, 190)
     Button_1:SetSize(200, 40)
     Button_1:SetColor(Color(255,255,255))
     Button_1.Paint = function(s, w, h)
@@ -252,16 +219,17 @@ net.Receive("naruto_skills", function()
     end
 
     local Button_2 = vgui.Create("DButton", Naruto_Info) 
-    Button_2:SetText("Bientôt")
+    Button_2:SetText("Informations")
     Button_2:SetFont("Custom_Font_III")
-    Button_2:SetPos(570, 190)
+    Button_2:SetPos(570, 120)
     Button_2:SetSize(200, 40)
     Button_2:SetColor(Color(255,255,255))
     Button_2.Paint = function(s, w, h)
         draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
     end
-    --Button_2.DoClick = function()
-    --end
+    Button_2.DoClick = function()
+        naruto_info()
+    end
 
     local Button_3 = vgui.Create("DButton", Naruto_Info) 
     Button_3:SetText("Bientôt")
@@ -322,6 +290,26 @@ net.Receive("naruto_skills_admin", function()
     ply_info:ShowCloseButton(false)
     ply_info:SetDraggable(false)
 
+    
+
+    local ply_listi = vgui.Create("DFrame", ply_info)
+    ply_listi:SetSize(240, 250)
+    ply_listi:SetTitle(" ")
+    ply_listi:SetPos(300, 120)
+    ply_listi:ShowCloseButton(false)
+    ply_listi:SetDraggable(false)
+    ply_listi.Paint = function(s, w, h)
+        draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
+        draw.RoundedBox(4, 0, 0, w, 25, Learn_Skills.UI_Color.Other_I)
+        draw.SimpleText("Techniques Aprenable", "Custom_Font_III", 5, 12, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+    end
+    
+    local DScrollPanela = vgui.Create("DScrollPanel", ply_listi)
+    DScrollPanela:Dock(FILL)
+    DScrollPanela.Paint = function(s, w, h)
+        draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
+    end
+
     if Learn_Skills.UserGroup[LocalPlayer():GetUserGroup()] then
         local Closex = vgui.Create("DButton", ply_info)
         Closex:SetText("")
@@ -351,7 +339,7 @@ net.Receive("naruto_skills_admin", function()
     layout:SetPos(40, 120)
 
     local ply_wep = vgui.Create("DFrame", ply_info)
-    ply_wep:SetSize(400, 300)
+    ply_wep:SetSize(200, 300)
     ply_wep:SetTitle("Technique.s Aprise")
     ply_wep:SetPos(0, 150)
     ply_wep:ShowCloseButton(false)
@@ -377,11 +365,35 @@ net.Receive("naruto_skills_admin", function()
     	DButton:DockMargin(0, 0, 0, 5)
         DButton.DoClick = function()
             local ply_data_info = table_ply[v]
-            PrintTable(ply_data_info)
             DLabel:SetText("Nature : " .. ply_data_info.Nature)
             DLabel:SizeToContents()
             DLabeli:SetText("Chakra : " .. ply_data_info.Chakra)
             DLabeli:SizeToContents()
+
+            DScrollPanela:Clear()
+            
+            if Learn_Skills.Technical.Commun then
+                for k, v in pairs(table.GetKeys(Learn_Skills.Technical.Commun)) do
+                    local DLabelx = DScrollPanela:Add("DLabel")
+                    DLabelx:SetText(v)
+                    DLabelx:SetFont("Custom_Font_IV")
+                    DLabelx:SetColor(Color(255, 255, 255))
+                    DLabelx:Dock(TOP)
+                    DLabelx:DockMargin(0, 0, 0, 5)
+                end
+            end
+
+            if Learn_Skills.Technical[ply_data_info.Nature] then
+                for k, v in pairs(table.GetKeys(Learn_Skills.Technical[ply_data_info.Nature])) do
+                    local DLabelx = DScrollPanela:Add("DLabel")
+                    DLabelx:SetColor(Color(255, 255, 255))
+                    DLabelx:SetText(v)
+                    DLabelx:SetFont("Custom_Font_IV")
+                    DLabelx:Dock(TOP)
+                    DLabelx:DockMargin(0, 0, 0, 5)
+                end
+            end
+
             if ply_data_info.Weapons then
                 DScrollPanelx:Clear()
                 for b, n in ipairs(ply_data_info.Weapons) do
@@ -399,6 +411,7 @@ net.Receive("naruto_skills_admin", function()
             end
         end
     end
+    
 end)
 
 concommand.Add("naruto_skills", function(ply, cmd, args)
