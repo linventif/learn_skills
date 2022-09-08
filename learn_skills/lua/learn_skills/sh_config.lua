@@ -2,6 +2,8 @@ Learn_Skills = {}
 
 Learn_Skills.Text = "Table des Techinques"
 
+Learn_Skills.Advert = true
+
 Learn_Skills.Commands_Chat = {
     ["/skill"] = true,
     ["!skill"] = true,
