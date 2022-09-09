@@ -59,6 +59,7 @@ Learn_Skills.Team = {
 
 Learn_Skills.Technical = {
     ["Commun"] = {
+        ["weapon_m42"] = true,
         ["technique_permutation"] = true,
         ["walk_on_water"] = true,
         ["chakra_charge"] = true,

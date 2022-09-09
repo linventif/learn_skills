@@ -2,6 +2,24 @@ util.AddNetworkString("naruto_skills")
 util.AddNetworkString("naruto_skills_admin")
 util.AddNetworkString("naruto_message")
 util.AddNetworkString("naruto_table")
+util.AddNetworkString("naruto_skills_learn_server")
+util.AddNetworkString("naruto_skills_learn_client")
+util.AddNetworkString("naruto_skills_learn_a")
+
+net.Receive("naruto_skills_learn_server", function(len, ply)
+    local ply_data = net.ReadTable()
+    ply_data.instructor = ply
+    net.Start("naruto_skills_learn_client")
+    net.WriteTable(ply_data)
+    net.Send(ply_data.ply)
+end)
+
+net.Receive("naruto_skills_learn_a", function(len, ply)
+    local ply_data = net.ReadTable()
+    ply_data.ply = ply
+
+    hook.Run("learn_skills_logs", ply_data.ply, ply_data.wep, ply_data.time, ply_data.instructor)
+end)
 
 
 util.AddNetworkString("naruto_reroll")
