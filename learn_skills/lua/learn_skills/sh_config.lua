@@ -54,7 +54,8 @@ Learn_Skills.BoostGroup = {
 
 Learn_Skills.Team = {
     ["Instructeur - Ko"]    =   true,
-    ["Instructeur - Ki"]    =   true
+    ["Instructeur - Ki"]    =   true,
+    ["Chef Mangeka"]    =   true
 }
 
 Learn_Skills.Technical = {
@@ -183,7 +184,23 @@ Learn_Skills.Technical = {
         ["ranton_dragon"] = true,
         ["ranton_manif"] = true,
         ["ranton_temp"] = true,
-        ["ranton_destruction_precise"] = true
+        ["ranton_destruction_precise"] = true,
+        ["suiton_prison_aqueuse"] = true,
+        ["suiton_perception_de_la_brume"] = true,
+        ["suiton_vague_aqueuese"] = true,
+        ["suiton_prot1"] = true,
+        ["suiton_trombes_deau"] = true,
+        ["suiton_vague_du_chaos"] = true,
+        ["suiton_bombe_aqueuse"] = true,
+        ["suiton_camouflage_dans_la_brume"] = true,
+        ["suiton_canon_aqueu"] = true,
+        ["suiton_mur"] = true,
+        ["suiton_pluie_torencielle"] = true,
+        ["suiton_projectiles_aqueux_"] = true,
+        ["suiton_vague_de_bulles"] = true,
+        ["suiton_cataracte"] = true,
+        ["suiton_onde"] = true,
+        ["weapon_sound_gun_07"] = true
     },
     ["Suiton"] = {
         ["suiton_prison_aqueuse"] = true,

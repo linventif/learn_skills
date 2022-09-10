@@ -65,3 +65,10 @@ hook.Add( "PlayerSay", "naruto_skills_admin", function(ply, text)
         naruto_skills_admin(ply)
 	end
 end)
+
+--  hook.Add("Skills_Use_Chakra", "Skills_Use_Chakra", function(ply, value)
+--      if ply:IsValid() and value:IsValid() then
+--          local table_data = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
+--  
+--      end
+--  end)

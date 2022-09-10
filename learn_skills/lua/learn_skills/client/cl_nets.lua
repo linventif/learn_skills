@@ -72,6 +72,8 @@ surface.CreateFont( "Custom_Font_IV", {
 
 local ply_selc = nil
 
+
+local nb_apprend = 0
 net.Receive("naruto_message", function()
     local table = net.ReadTable()
     naruto_notif(table)
@@ -79,9 +81,15 @@ end)
 
 net.Receive("naruto_table", function()
     local table = net.ReadTable()
-    timer.Simple(2, function()
+    timer.Simple(4, function()
         chat.AddText(Color(255, 255, 255), "Votre aventure commence en temps que ", Color(108, 216, 216), table.Nature, Color(255, 255, 255), " ainsi qu'avec ", Color(108, 216, 216), util.TypeToString(table.Chakra), Color(255, 255, 255), " de chakra.")
     end)
+end)
+
+
+net.Receive("skills_advert", function()
+    local data_table = net.ReadTable()
+    chat.AddText(Color(255, 100, 0), "Skills Learn | ", Color(255, 255, 255), data_table.ply:Nick() .. " a appris avec succes ", Color(108, 216, 216), data_table.wep)
 end)
 
 net.Receive("naruto_skills", function()
@@ -127,7 +135,7 @@ net.Receive("naruto_skills", function()
     ply_list.Paint = function(s, w, h)
         draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
         draw.RoundedBox(4, 0, 0, w, 25, Learn_Skills.UI_Color.Other_I)
-        draw.SimpleText("Technique Aprise", "Custom_Font_III", 5, 12, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Technique Apprise", "Custom_Font_III", 5, 12, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     end
     
     local DScrollPanel = vgui.Create("DScrollPanel", ply_list)
@@ -148,7 +156,7 @@ net.Receive("naruto_skills", function()
     else
         DScrollPanel:Clear()
         local DLabelx = DScrollPanel:Add("DLabel")
-        DLabelx:SetText("Aucune Technique Aprise !")
+        DLabelx:SetText("Aucune Technique Apprise !")
         DLabelx:SetColor(Color(255, 255, 255))  
         DLabelx:Dock(TOP)
         DLabelx:SetFont("Custom_Font_IV")
@@ -164,7 +172,7 @@ net.Receive("naruto_skills", function()
     ply_listi.Paint = function(s, w, h)
         draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
         draw.RoundedBox(4, 0, 0, w, 25, Learn_Skills.UI_Color.Other_I)
-        draw.SimpleText("Techniques Aprenable", "Custom_Font_III", 5, 12, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Techniques Apprenable", "Custom_Font_III", 5, 12, Color(255,255,255,255), TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
     end
     
     local DScrollPanela = vgui.Create("DScrollPanel", ply_listi)
@@ -196,7 +204,7 @@ net.Receive("naruto_skills", function()
     end
 
     local Button_1 = vgui.Create("DButton", frame_main) 
-    Button_1:SetText("Utuliser un Reroll")
+    Button_1:SetText("Utiliser un Reroll")
     Button_1:SetFont("Custom_Font_III")
     Button_1:SetPos(570, 190)
     Button_1:SetSize(200, 40)
@@ -290,19 +298,19 @@ net.Receive("naruto_skills_admin", function()
         draw.RoundedBox(0, 0, 0, w, h, Learn_Skills.UI_Color.Transparent)
     end
 
-    if Learn_Skills.UserGroup[LocalPlayer():GetUserGroup()] then
-        local button_seting = vgui.Create("DButton", frame_main)
-        button_seting:SetText("")
-        button_seting:SetPos(930-50, 0)
-        button_seting:SetSize(25, 25)
-        button_seting:SetIcon("icon16/wrench.png")
-        button_seting.DoClick = function()
-            ply_info:Close()
-        end
-        button_seting.Paint = function(s, w, h)
-            draw.RoundedBox(0, 0, 0, w, h, Learn_Skills.UI_Color.Transparent)
-        end
-    end
+--    if Learn_Skills.UserGroup[LocalPlayer():GetUserGroup()] then
+--        local button_seting = vgui.Create("DButton", frame_main)
+--        button_seting:SetText("")
+--        button_seting:SetPos(930-50, 0)
+--        button_seting:SetSize(25, 25)
+--        button_seting:SetIcon("icon16/wrench.png")
+--        button_seting.DoClick = function()
+--            ply_info:Close()
+--        end
+--        button_seting.Paint = function(s, w, h)
+--            draw.RoundedBox(0, 0, 0, w, h, Learn_Skills.UI_Color.Transparent)
+--        end
+--    end
 
 
 
@@ -316,7 +324,7 @@ net.Receive("naruto_skills_admin", function()
     local label_ply = vgui.Create("DLabel", frame_main)
     label_ply:SetPos(300, 110)
     label_ply:SetColor(Color(255, 255, 255))
-    label_ply:SetText("Joueur : Non Selectioner")
+    label_ply:SetText("Joueur : Non Selectionné")
     label_ply:SetFont("Custom_Font_I")
     label_ply:SizeToContents()
 
@@ -335,9 +343,9 @@ net.Receive("naruto_skills_admin", function()
     label_chakra:SizeToContents()
 
     local label_ply_aprend = vgui.Create("DLabel", frame_main)
-    label_ply_aprend:SetPos(465, 430)
+    label_ply_aprend:SetPos(425, 430)
     label_ply_aprend:SetColor(Color(255, 255, 255))
-    label_ply_aprend:SetText("Enseigniez une Technique")
+    label_ply_aprend:SetText("Enseignez une Technique Apprise")
     label_ply_aprend:SetFont("Custom_Font_II")
     label_ply_aprend:SizeToContents()
     
@@ -352,7 +360,7 @@ net.Receive("naruto_skills_admin", function()
     ply_list.Paint = function(s, w, h)
         draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
         draw.RoundedBox(4, 0, 0, w, 25, Learn_Skills.UI_Color.Other_I)
-        draw.SimpleText("Joueurs Connecter", "Custom_Font_III", 240/2, 12, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Joueurs Connectés", "Custom_Font_III", 240/2, 12, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
 
     local ply_lean = vgui.Create("DFrame", frame_main)
@@ -364,7 +372,7 @@ net.Receive("naruto_skills_admin", function()
     ply_lean.Paint = function(s, w, h)
         draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
         draw.RoundedBox(4, 0, 0, w, 25, Learn_Skills.UI_Color.Other_I)
-        draw.SimpleText("Techniques Aprenable", "Custom_Font_III", 285/2, 12, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Techniques Apprenable", "Custom_Font_III", 285/2, 12, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
 
     local ply_wep = vgui.Create("DFrame", frame_main)
@@ -376,7 +384,7 @@ net.Receive("naruto_skills_admin", function()
     ply_wep.Paint = function(s, w, h)
         draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
         draw.RoundedBox(4, 0, 0, w, 25, Learn_Skills.UI_Color.Other_I)
-        draw.SimpleText("Techniques Aprise", "Custom_Font_III", 285/2, 12, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Techniques Apprise", "Custom_Font_III", 285/2, 12, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
 
 
@@ -386,7 +394,7 @@ net.Receive("naruto_skills_admin", function()
     combo_wep:SetColor(Color(255, 255, 255))
     combo_wep:SetFont("Custom_Font_III")
     combo_wep:SetSize( 240, 40 )
-    combo_wep:SetValue("Technique | Joueurs non Selectioner")
+    combo_wep:SetValue("Technique Enseignable")
     combo_wep:SetSortItems(false)
     combo_wep.Paint = function(s, w, h)
         draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
@@ -438,7 +446,7 @@ net.Receive("naruto_skills_admin", function()
         ply_list.Paint = function(s, w, h)
             draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
             draw.RoundedBox(4, 0, 0, w, 25, Learn_Skills.UI_Color.Other_I)
-            draw.SimpleText("Joueurs Connecter", "Custom_Font_III", 240/2, 12, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            draw.SimpleText("Joueurs Connectés", "Custom_Font_III", 240/2, 12, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
         end
 
         button_ply.DoClick = function()
@@ -454,32 +462,32 @@ net.Receive("naruto_skills_admin", function()
 
             scroll_ply_wep:Clear()
             combo_wep:Clear()
-            combo_wep:SetValue("Technique")
+            combo_wep:SetValue("Technique Enseignable")
             
             if Learn_Skills.Technical.Commun then
                 for k, v in pairs(table.GetKeys(Learn_Skills.Technical.Commun)) do
-                    if LocalPlayer():GetWeapon(v) != nil then
+                    local label_wep_com = scroll_ply_wep:Add("DLabel")
+                    label_wep_com:SetText(v)
+                    label_wep_com:SetFont("Custom_Font_IV")
+                    label_wep_com:SetColor(Color(255, 255, 255))
+                    label_wep_com:Dock(TOP)
+                    label_wep_com:DockMargin(0, 0, 0, 5)
+                    if LocalPlayer():GetWeapon(v):IsValid() then
                         combo_wep:AddChoice(v)
-                        local label_wep_com = scroll_ply_wep:Add("DLabel")
-                        label_wep_com:SetText(v)
-                        label_wep_com:SetFont("Custom_Font_IV")
-                        label_wep_com:SetColor(Color(255, 255, 255))
-                        label_wep_com:Dock(TOP)
-                        label_wep_com:DockMargin(0, 0, 0, 5)
                     end
                 end
             end
 
             if Learn_Skills.Technical[ply_data_info.Nature] then
                 for k, v in pairs(table.GetKeys(Learn_Skills.Technical[ply_data_info.Nature])) do
-                    if LocalPlayer():GetWeapon(v) != nil then
+                    local label_wep_nat = scroll_ply_wep:Add("DLabel")
+                    label_wep_nat:SetColor(Color(255, 255, 255))
+                    label_wep_nat:SetText(v)
+                    label_wep_nat:SetFont("Custom_Font_IV")
+                    label_wep_nat:Dock(TOP)
+                    label_wep_nat:DockMargin(0, 0, 0, 5)
+                    if LocalPlayer():GetWeapon(v):IsValid() then
                         combo_wep:AddChoice(v)
-                        local label_wep_nat = scroll_ply_wep:Add("DLabel")
-                        label_wep_nat:SetColor(Color(255, 255, 255))
-                        label_wep_nat:SetText(v)
-                        label_wep_nat:SetFont("Custom_Font_IV")
-                        label_wep_nat:Dock(TOP)
-                        label_wep_nat:DockMargin(0, 0, 0, 5)
                     end
                 end
             end
@@ -497,7 +505,7 @@ net.Receive("naruto_skills_admin", function()
             else
                 scroll_ply_wep_learn:Clear()
                 local label_wep_learn = scroll_ply_wep_learn:Add("DLabel")
-                label_wep_learn:SetText("Aucune Techniques Aprise")
+                label_wep_learn:SetText("Aucune Techniques Apprise")
                 label_wep_learn:SetFont("Custom_Font_IV")
                 label_wep_learn:SetColor(Color(255, 255, 255))
                 label_wep_learn:Dock(TOP)
@@ -507,7 +515,7 @@ net.Receive("naruto_skills_admin", function()
     end
 
     local button_teach = vgui.Create("DButton", frame_main) 
-    button_teach:SetText("Enseigniez")
+    button_teach:SetText("Enseignez")
     button_teach:SetPos(780, 480)
     button_teach:SetFont("Custom_Font_III")
     button_teach:SetSize(120, 40)
@@ -515,28 +523,38 @@ net.Receive("naruto_skills_admin", function()
     button_teach.Paint = function(s, w, h)
         draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
     end
+    local anti_spam = CurTime() + 2
     button_teach.DoClick = function()
-        if ply_all_test.ply then
-            if LocalPlayer() == ply_all_test.ply then
-                if !combo_wep:GetSelected() or !combo_time:GetSelected() then
-                    notification.AddLegacy("Vous avais oublier de metre un temps ou une technique !", 1,4)
+        if anti_spam < CurTime() then
+            anti_spam = CurTime() + 2
+            if ply_all_test.ply then
+                if LocalPlayer() != ply_all_test.ply then
+                    if !combo_wep:GetSelected() or !combo_time:GetSelected() then
+                        notification.AddLegacy("Vous avez oublié de mettre un temps ou une technique !", 1,4)
+                    else
+                        if nb_apprend > 2 then
+                            notification.AddLegacy("Vous ne pouvez pas commencez plus d'apprentisage ! ", 1,4)
+                        else
+                            notification.AddLegacy("Proposition d'apprentisage envoyer !", 0, 4)
+                            ply_all_test.wep = combo_wep:GetSelected()
+                            ply_all_test.time = combo_time:GetSelected()
+                            net.Start("naruto_skills_learn_server")
+                            net.WriteTable(ply_all_test)
+                            net.SendToServer()
+                        end
+                    end
                 else
-                    ply_all_test.wep = combo_wep:GetSelected()
-                    ply_all_test.time = combo_time:GetSelected()
-                    net.Start("naruto_skills_learn_server")
-                    net.WriteTable(ply_all_test)
-                    net.SendToServer()
+                    notification.AddLegacy("Vous ne pouvez pas vous ciblez !", 1,4)
                 end
             else
-                notification.AddLegacy("Vous ne pouvez pas vous ciblez !", 1,4)
+                notification.AddLegacy("Vous n'avez pas selectionné de joueur !", 1,4)
             end
         else
-            notification.AddLegacy("Vous n'avez pas selectioner de joueur !", 1,4)
+            notification.AddLegacy("STOP SPAM FILS DE FLUTE", 1,4)
         end
     end
     
 end)
-
 
 net.Receive("naruto_skills_learn_client", function(len, ply)
     local ply_data = net.ReadTable()
@@ -607,38 +625,141 @@ net.Receive("naruto_skills_learn_client", function(len, ply)
     label_plyz:SizeToContents()
 end)
 
-
 net.Receive("skills_teatching", function()
-    --surface.PlaySound("sound/linventif/cash-register.wav")
-
-    
-end)
-
-
-
-net.Receive("skills_learning", function()
-    --surface.PlaySound("sound/linventif/cash-register.wav")
-
-    local ply_buy = net.ReadEntity()
-    local pack_name = net.ReadString()
+    local ply_data = net.ReadTable()
 
     local DFrame = vgui.Create("DFrame")
-    DFrame:SetPos(ScrW()-350, 50)
-    DFrame:SetSize(300, 200)
+    if nb_apprend == 0 then
+        DFrame:SetPos(ScrW()-350, 50)
+    elseif nb_apprend == 1 then
+        DFrame:SetPos(ScrW()-350, 350)
+    elseif nb_apprend == 2 then
+        DFrame:SetPos(ScrW()-350, 650)
+    end
+    DFrame:SetSize(300, 240)
     DFrame:SetTitle(" ")
     DFrame:SetDraggable(false)
     DFrame:ShowCloseButton(false)
     DFrame.Paint = function(s, w, h)
-        draw.RoundedBox(14, 0, 0, w, h, Color(52, 58, 64))
-        draw.SimpleText("Nouvelle Achat Boutique", "Custom_Font_I", 300/2, 30, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        draw.SimpleText(ply_buy:Nick(), "Custom_Font_I", 300/2, 200/2-20, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        draw.SimpleText("a acheter un.e", "Custom_Font_I", 300/2, 200/2+20, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        draw.SimpleText(pack_name, "Custom_Font_I", 300/2, 200/2+60, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.RoundedBox(8, 0, 0, w, h, Learn_Skills.UI_Color.Background)
+        --draw.RoundedBox(0, 0, 0, w, 23, Learn_Skills.UI_Color.Other)
+        draw.SimpleText("Apprentissage en Cours", "Custom_Font_I", 300/2, 25, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Terminer l'Apprentissage", "Custom_Font_I", 300/2, 155, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end
 
-    timer.Simple(6, function()
+    local button_accept = vgui.Create("DButton", DFrame) 
+    button_accept:SetText("Réusit")
+    button_accept:SetPos(20 , 180)
+    button_accept:SetFont("Custom_Font_III")
+    button_accept:SetSize(120, 40)
+    button_accept:SetColor(Color(255,255,255))
+    button_accept.Paint = function(s, w, h)
+        draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
+    end
+    button_accept.DoClick = function()
+        ply_data.succes = true
+        net.Start("skills_teatching_end")
+        net.WriteTable(ply_data)
+        net.SendToServer()
         DFrame:Close()
-    end)
+        nb_apprend = nb_apprend -1
+    end
+
+    local button_refuse = vgui.Create("DButton", DFrame) 
+    button_refuse:SetText("Echec")
+    button_refuse:SetPos(160, 180)
+    button_refuse:SetFont("Custom_Font_III")
+    button_refuse:SetSize(120, 40)
+    button_refuse:SetColor(Color(255,255,255))
+    button_refuse.Paint = function(s, w, h)
+        draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
+    end
+    button_refuse.DoClick = function()
+        ply_data.succes = false
+        net.Start("skills_teatching_end")
+        net.WriteTable(ply_data)
+        net.SendToServer()
+        DFrame:Close()
+        nb_apprend = nb_apprend -1
+    end
+
+
+    local label_ply = vgui.Create("DLabel", DFrame)
+    label_ply:SetPos(40, 50)
+    label_ply:SetColor(Color(255, 255, 255))
+    label_ply:SetText("Technique : " .. ply_data.wep)
+    label_ply:SetFont("Custom_Font_III")
+    label_ply:SizeToContents()
+
+
+    local label_plya = vgui.Create("DLabel", DFrame)
+    label_plya:SetPos(40, 80)
+    label_plya:SetColor(Color(255, 255, 255))
+    label_plya:SetText("Temps Nécéssaire  : " .. ply_data.time)
+    label_plya:SetFont("Custom_Font_III")
+    label_plya:SizeToContents()
+
+
+    local label_plyz = vgui.Create("DLabel", DFrame)
+    label_plyz:SetPos(40, 110)
+    label_plyz:SetColor(Color(255, 255, 255))
+    label_plyz:SetText("Instructeur : " .. ply_data.instructor:Nick())
+    label_plyz:SetFont("Custom_Font_III")
+    label_plyz:SizeToContents()
+    nb_apprend = nb_apprend + 1
+end)
+
+
+net.Receive("skills_learning", function()
+    
+    local ply_data = net.ReadTable()
+
+    local DFrame = vgui.Create("DFrame")
+    DFrame:SetPos(ScrW()-350, 50)
+    DFrame:SetSize(300, 160)
+    DFrame:SetTitle(" ")
+    DFrame:SetDraggable(false)
+    DFrame:ShowCloseButton(false)
+    DFrame.Paint = function(s, w, h)
+        draw.RoundedBox(8, 0, 0, w, h, Learn_Skills.UI_Color.Background)
+        --draw.RoundedBox(0, 0, 0, w, 23, Learn_Skills.UI_Color.Other)
+        draw.SimpleText("Apprentisage en Cours", "Custom_Font_I", 300/2, 25, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    end
+
+    local button_close = vgui.Create("DButton", DFrame)
+    button_close:SetText("")
+    button_close:SetPos(300-25, 0)
+    button_close:SetSize(25, 25)
+    button_close:SetIcon("icon16/cross.png")
+    button_close.DoClick = function()
+        DFrame:Close()
+    end
+    button_close.Paint = function(s, w, h)
+        draw.RoundedBox(0, 0, 0, w, h, Learn_Skills.UI_Color.Transparent)
+    end
+
+    local label_ply = vgui.Create("DLabel", DFrame)
+    label_ply:SetPos(40, 50)
+    label_ply:SetColor(Color(255, 255, 255))
+    label_ply:SetText("Technique : " .. ply_data.wep)
+    label_ply:SetFont("Custom_Font_III")
+    label_ply:SizeToContents()
+
+
+    local label_plya = vgui.Create("DLabel", DFrame)
+    label_plya:SetPos(40, 80)
+    label_plya:SetColor(Color(255, 255, 255))
+    label_plya:SetText("Temps Nécéssaire  : " .. ply_data.time)
+    label_plya:SetFont("Custom_Font_III")
+    label_plya:SizeToContents()
+
+
+    local label_plyz = vgui.Create("DLabel", DFrame)
+    label_plyz:SetPos(40, 110)
+    label_plyz:SetColor(Color(255, 255, 255))
+    label_plyz:SetText("Instructeur : " .. ply_data.instructor:Nick())
+    label_plyz:SetFont("Custom_Font_III")
+    label_plyz:SizeToContents()
 end)
 
 concommand.Add("naruto_skills", function(ply, cmd, args)

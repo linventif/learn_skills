@@ -5,20 +5,59 @@ util.AddNetworkString("naruto_table")
 util.AddNetworkString("naruto_skills_learn_server")
 util.AddNetworkString("naruto_skills_learn_client")
 util.AddNetworkString("naruto_skills_learn_a")
+util.AddNetworkString("skills_learning")
+util.AddNetworkString("skills_teatching")
+util.AddNetworkString("skills_teatching_end")
+util.AddNetworkString("skills_advert")
 
 net.Receive("naruto_skills_learn_server", function(len, ply)
     local ply_data = net.ReadTable()
     ply_data.instructor = ply
-    net.Start("naruto_skills_learn_client")
-    net.WriteTable(ply_data)
-    net.Send(ply_data.ply)
+    if ply:GetWeapon(ply_data.wep):IsValid() then
+        net.Start("naruto_skills_learn_client")
+        net.WriteTable(ply_data)
+        net.Send(ply_data.ply)
+    else
+        naruto_notif(ply, "Armes Invalide !", 1, 4)
+    end
 end)
 
 net.Receive("naruto_skills_learn_a", function(len, ply)
     local ply_data = net.ReadTable()
     ply_data.ply = ply
 
+    net.Start("skills_teatching")
+    net.WriteTable(ply_data)
+    net.Send(ply_data.instructor)
+
+    net.Start("skills_learning")
+    net.WriteTable(ply_data)
+    net.Send(ply_data.ply)
+
     hook.Run("learn_skills_logs", ply_data.ply, ply_data.wep, ply_data.time, ply_data.instructor)
+end)
+
+net.Receive("skills_teatching_end", function(len, ply)
+    local ply_data = net.ReadTable()
+    if ply_data.succes then
+        --PrintTable(ply_data)
+        naruto_notif(ply_data.ply, "Bravo vous avez réusit a apprendre " .. ply_data.wep .. " !", 0, 4)
+        local ply_data_table = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply_data.ply:SteamID64() .. ".json", "DATA"))
+        if ply_data_table.Weapons then
+            table.insert(ply_data_table.Weapons, ply_data.wep)
+        else
+            ply_data_table.Weapons = {ply_data.wep}
+        end
+        file.Write("linventif/learn_skills/players/" .. ply_data.ply:SteamID64() .. ".json", util.TableToJSON(ply_data_table))
+        ply_data.ply:Give(ply_data.wep)
+        if Learn_Skills.Advert then
+            net.Start("skills_advert")
+            net.WriteTable(ply_data)
+            net.Broadcast()
+        end
+    else
+        naruto_notif(ply_data.ply, "Malheresement vous n'avez pas réusit a apprendre " .. ply_data.wep .. " !", 0, 4)
+    end
 end)
 
 
