@@ -9,6 +9,58 @@ util.AddNetworkString("skills_learning")
 util.AddNetworkString("skills_teatching")
 util.AddNetworkString("skills_teatching_end")
 util.AddNetworkString("skills_advert")
+util.AddNetworkString("skills_auto")
+util.AddNetworkString("skills_init")
+util.AddNetworkString("skills_message")
+
+timer.Create("Auto_Skills", 360, 0, function()
+    for k, ply in pairs(player.GetAll()) do        
+        local points = 0     
+        local chakra = 0
+        if Learn_Skills.BoostGroup[ply:GetUserGroup()] then
+            points = math.random(4, 10)
+            chakra = math.random(12, 24)
+        else
+            points = math.random(2, 5)
+            chakra = math.random(6, 12) 
+        end
+        ply:PS_GivePoints(points)
+        local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez automatiquement reçu ", ["color_2"] = Color(255, 100, 0), ["string_2"] = points .. " Super Points", ["color_3"] = Color(255, 255, 255), ["string_3"] = " pour avoir joué sur le serveur." }
+
+        if file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA") then
+            local table = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
+            if table.Chakra < 15000 then                
+                if (table.Chakra + chakra) > 15000 then
+                    table.Chakra = 15000
+                else
+                    table.Chakra = table.Chakra + chakra
+                end
+                ply:SetNWInt("BCMaxMana", table.Chakra)
+                ply:SetNWInt("BCMana", ply:GetNWInt("BCMana") + chakra)
+                message.color_3 = Color(255, 255, 255)
+                message.string_3 = " ainsi que "
+                message.color_4 = Color(255, 100, 0)
+                message.string_4 = chakra .. " Points de Chakra"
+                message.color_5 = Color(255, 255, 255)
+                message.string_5 = " pour avoir joué sur le serveur."
+                file.Write("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", util.TableToJSON(table))   
+            end
+        end
+        skills_message(ply, message)
+    end
+end)
+
+/*
+for k, ply in pairs(player.GetAll()) do   
+    if file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA") then
+        local table = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
+        ply:SetNWInt("BCMaxMana", table.Chakra)
+        ply:SetNWInt("BCMana", table.Chakra)
+        --ply:GetNWInt("BCMana", table.Chakra)
+        ply:ChatPrint("TEST CHAKRA")
+    end
+end
+*/
 
 net.Receive("naruto_skills_learn_server", function(len, ply)
     local ply_data = net.ReadTable()
@@ -34,7 +86,7 @@ net.Receive("naruto_skills_learn_a", function(len, ply)
     net.WriteTable(ply_data)
     net.Send(ply_data.ply)
 
-    hook.Run("learn_skills_logs", ply_data.ply, ply_data.wep, ply_data.time, ply_data.instructor)
+    hook.Run("learn_skills_learn", ply_data.ply, ply_data.wep, ply_data.time, ply_data.instructor)
 end)
 
 net.Receive("skills_teatching_end", function(len, ply)
@@ -51,8 +103,9 @@ net.Receive("skills_teatching_end", function(len, ply)
         file.Write("linventif/learn_skills/players/" .. ply_data.ply:SteamID64() .. ".json", util.TableToJSON(ply_data_table))
         ply_data.ply:Give(ply_data.wep)
         if Learn_Skills.Advert then
-            net.Start("skills_advert")
-            net.WriteTable(ply_data)
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = ply_data.ply:Nick() .. " a appris avec succes ", ["color_2"] = Color(108, 216, 216), ["string_2"] = data_table.wep }
+            net.Start("skills_message")
+            net.WriteString(util.TableToJSON(message))
             net.Broadcast()
         end
     else
@@ -96,7 +149,9 @@ net.Receive("naruto_reroll", function(len, ply)
                 table.Nature = "Raiton"
             end
             file.Write("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", util.TableToJSON(table))
-            naruto_notif(ply, "Vous avez utuliser un reroll vous êtes maintenant un " .. table.Nature .. " !", 0, 4)
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Votre nature a changé, vous êtes maintenant un ", ["color_2"] = Color(255, 100, 0), ["string_2"] = table.Nature}
+            skills_message(ply, message)
+            hook.Run("learn_skills_reroll", ply, table.Nature)
         else
             naruto_notif(ply, "Vous n'avez pas assez de Reroll !", 1, 4)
         end
@@ -110,107 +165,3 @@ util.AddNetworkString("naruto_cmd")
 net.Receive("naruto_cmd", function(len, ply)
     naruto_skills(ply)
 end)
---[[
-
-net.Receive("naruto_cmd", function(len, ply)
-    if (ply:IsPlayer() and Learn_Skills.UserGroup[ply:GetUserGroup()]) then
-        local net_var = {}
-        net_var.cmd = net.ReadString()
-        net_var.traget_ply = net.ReadEntity()
-        if net.ReadBool() then
-            net_var.value = net.ReadString()
-        else
-            net_var.value = net.ReadInt(32)
-        end
-        if file.Exists("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", "data") then
-            local table_data = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", "DATA"))
-            if net_var.cmd == "naruto_reset" then
-                local table = {
-                    ["Nature"]  = math.random(1, 5),
-                    ["Chakra"]  = math.random(600, 1000)
-                } 
-    
-                if table.Nature == 1 then
-                    table.Nature = math.random(1, 50)
-                    if table.Nature == 1 then
-                        table.Nature = "Futton"
-                    elseif table.Nature == 2 then
-                        table.Nature = "Jiton_Dorée"
-                    elseif table.Nature == 3 then
-                        table.Nature = "Jinton"
-                    else
-                        table.Nature = "Futon"
-                    end
-                elseif table.Nature == 2 then
-                    table.Nature = math.random(1, 50)
-                    if table.Nature == 1 then
-                        table.Nature = "Bakuton"
-                    elseif table.Nature == 2 then
-                        table.Nature = "Jinton "
-                    elseif table.Nature == 3 then
-                        table.Nature = "Shoton"
-                    else
-                        table.Nature = "Doton"
-                    end
-                elseif table.Nature == 3 then
-                    table.Nature = math.random(1, 50)
-                    if table.Nature == 1 then
-                        table.Nature = "Shakuton"
-                    elseif table.Nature == 2 then
-                        table.Nature = "Jinton"
-                    else
-                        table.Nature = "Katon"
-                    end
-                elseif table.Nature == 4 then
-                    table.Nature = math.random(1, 50)
-                    if table.Nature == 1 then
-                        table.Nature = "Ranton"
-                    elseif table.Nature == 2 then
-                        table.Nature = "Futton"
-                    else
-                        table.Nature = "Suiton"
-                    end
-                else
-                    table.Nature = math.random(1, 50)
-                    if table.Nature == 1 then
-                        table.Nature = "Bakuton"
-                    elseif table.Nature == 2 then
-                        table.Nature = "Ranton"
-                    elseif table.Nature == 3 then
-                        table.Nature = "Puple_Raiton"
-                    else
-                        table.Nature = "Raiton"
-                    end
-                end
-            
-                file.Write("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", util.TableToJSON(table))
-                naruto_notif(net_var.traget_ply, false, false, false, table)
-            elseif net_var.cmd == "naruto_chakra_add" then
-                table_data.Chakra = table_data.Chakra + net_var.value
-                file.Write("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", util.TableToJSON(table_data))
-                naruto_notif(net_var.traget_ply, "Un Staff a modifier votre chakra il est maintenant de " .. util.TypeToString(table_data.Chakra), 0, 4)
-            elseif net_var.cmd == "naruto_chakra_set" then
-                table_data.Chakra = net_var.value
-                file.Write("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", util.TableToJSON(table_data))
-                naruto_notif(net_var.traget_ply, "Un Staff a modifier votre chakra il est maintenant de " .. util.TypeToString(table_data.Chakra), 0, 4)
-            elseif net_var.cmd == "naruto_chakra_reset" then
-                table_data.Chakra = math.random(600, 1000)
-                file.Write("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", util.TableToJSON(table_data))
-                naruto_notif(net_var.traget_ply, "Un Staff a modifier votre chakra il est maintenant de " .. util.TypeToString(table_data.Chakra), 0, 4)
-            elseif net_var.cmd == "naruto_weapons_add" then
-                table.insert(table_data.Weapons, net_var.value)
-                file.Write("linventif/learn_skills/players/" .. net_var.traget_ply:SteamID64() .. ".json", util.TableToJSON(table_data))
-                naruto_notif(net_var.traget_ply, "Un Staff vous a ajoutez un.e " .. net_var.value .. " de manière permanente.", 0, 4)
-            elseif net_var.cmd == "naruto_info" then
-                naruto_notif(ply, false, false, false, table_data)
-                naruto_notif(ply, "Data reçus regarder votre console.", 0, 4)
-            end
-        else
-            naruto_notif(ply, "Erreur Data Serveur", 1, 4)
-        end
-    else
-        naruto_notif(ply, "Acces Refuser", 1, 4)
-    end
-end)
-
-]]--

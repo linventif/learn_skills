@@ -9,10 +9,10 @@ function naruto_notif(ply, string, notif, time)
     net.Send(ply)
 end
 
-function naruto_table(ply, table)
-    net.Start("naruto_table")
-    net.WriteTable(table)
-    net.Send(ply) 
+function skills_message(ply, message)
+    net.Start("skills_message")
+    net.WriteString(util.TableToJSON(message))
+    net.Send(ply)
 end
 
 function naruto_skills(ply)

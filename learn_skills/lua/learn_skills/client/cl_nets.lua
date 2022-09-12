@@ -81,16 +81,17 @@ end)
 
 net.Receive("naruto_table", function()
     local table = net.ReadTable()
-    timer.Simple(4, function()
+    timer.Simple(5, function()
         chat.AddText(Color(255, 255, 255), "Votre aventure commence en temps que ", Color(108, 216, 216), table.Nature, Color(255, 255, 255), " ainsi qu'avec ", Color(108, 216, 216), util.TypeToString(table.Chakra), Color(255, 255, 255), " de chakra.")
     end)
 end)
 
-
-net.Receive("skills_advert", function()
-    local data_table = net.ReadTable()
-    chat.AddText(Color(255, 100, 0), "Skills Learn | ", Color(255, 255, 255), data_table.ply:Nick() .. " a appris avec succes ", Color(108, 216, 216), data_table.wep)
+net.Receive("skills_message", function()
+    local skills_message = util.JSONToTable(net.ReadString())
+    chat.AddText(Color(255, 100, 0), "Learn Skills | ", skills_message.color_1, skills_message.string_1, skills_message.color_2, skills_message.string_2, skills_message.color_3, skills_message.string_3, skills_message.color_4, skills_message.string_4, skills_message.color_5, skills_message.string_5)
 end)
+
+
 
 net.Receive("naruto_skills", function()
     local table_ply = net.ReadTable()
@@ -648,7 +649,7 @@ net.Receive("skills_teatching", function()
     end
 
     local button_accept = vgui.Create("DButton", DFrame) 
-    button_accept:SetText("Réusit")
+    button_accept:SetText("Réussit")
     button_accept:SetPos(20 , 180)
     button_accept:SetFont("Custom_Font_III")
     button_accept:SetSize(120, 40)
@@ -695,7 +696,7 @@ net.Receive("skills_teatching", function()
     local label_plya = vgui.Create("DLabel", DFrame)
     label_plya:SetPos(40, 80)
     label_plya:SetColor(Color(255, 255, 255))
-    label_plya:SetText("Temps Nécéssaire  : " .. ply_data.time)
+    label_plya:SetText("Temps Nécessaire  : " .. ply_data.time)
     label_plya:SetFont("Custom_Font_III")
     label_plya:SizeToContents()
 
@@ -749,7 +750,7 @@ net.Receive("skills_learning", function()
     local label_plya = vgui.Create("DLabel", DFrame)
     label_plya:SetPos(40, 80)
     label_plya:SetColor(Color(255, 255, 255))
-    label_plya:SetText("Temps Nécéssaire  : " .. ply_data.time)
+    label_plya:SetText("Temps Nécessaire  : " .. ply_data.time)
     label_plya:SetFont("Custom_Font_III")
     label_plya:SizeToContents()
 
