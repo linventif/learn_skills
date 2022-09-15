@@ -1,7 +1,7 @@
 --[[
 
 
- 
+
 concommand.Add("naruto_reset", function(ply, cmd, args)
     if args[1] == nil then
         message("Erreur Commande : " .. cmd .. " steamid64", 1, 4)
@@ -15,7 +15,7 @@ concommand.Add("naruto_reset", function(ply, cmd, args)
         end
     end
 end)
-  
+
 concommand.Add("naruto_chakra_add", function(ply, cmd, args)
     if args[1] == nil or args[2] == nil or !args[2]:IsValid(int) then
         message("Erreur Commande : " .. cmd .. " steamid64 valeur", 1, 4)
@@ -29,7 +29,7 @@ concommand.Add("naruto_chakra_add", function(ply, cmd, args)
         end
     end
 end)
-  
+
 concommand.Add("naruto_chakra_set", function(ply, cmd, args)
     if args[1] == nil or args[2] == nil or !args[2]:IsValid(int) then
         message("Erreur Commande : " .. cmd .. " steamid64 valeur", 1, 4)
@@ -57,7 +57,7 @@ concommand.Add("naruto_chakra_reset", function(ply, cmd, args)
         end
     end
 end)
-  
+
 concommand.Add("naruto_nature_set", function(ply, cmd, args)
     if args[1] == nil or args[2] == nil or !args[2]:IsValid(int) then
         message("Erreur Commande : " .. cmd .. " steamid64 valeur", 1, 4)

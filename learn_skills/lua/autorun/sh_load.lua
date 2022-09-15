@@ -9,7 +9,7 @@ print(" -        Join my discord : https://dsc.gg/linventif         - ")
 print(" -         Watch my website : https://linventif.org          - ")
 print(" -                                                           - ")
 print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
-print(" ") 
+print(" ")
 print(" ")
 
 local folder = "learn_skills"
@@ -17,7 +17,7 @@ local folder = "learn_skills"
 AddCSLuaFile(folder .. "/sh_config.lua")
 include(folder .. "/sh_config.lua")
 
-if SERVER then    
+if SERVER then
     if !file.Exists("linventif", "data") then
         file.CreateDir("linventif")
         file.CreateDir("linventif/learn_skills")
