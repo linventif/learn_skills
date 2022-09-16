@@ -23,7 +23,10 @@ Learn_Skills.Size = {
 Learn_Skills.UserGroup = {
     ["superadmin"]      =   true,
     ["helper"]          =   true,
-    ["super-admin"]     =   true
+    ["super-admin"]     =   true,
+    ["admin"]           =   true,
+    ["modo"]            =   true,
+    ["modo-test"]       =   true
 }
 
 Learn_Skills.BoostGroup = {
