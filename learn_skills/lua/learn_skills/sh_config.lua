@@ -5,8 +5,10 @@ Learn_Skills.Text = "Table des Techinques"
 Learn_Skills.Advert = true
 Learn_Skills.Auto_Chakra = true
 Learn_Skills.Auto_Points = true
+Learn_Skills.Chakra_Limit_Job = true
 
 Learn_Skills.Version = 1
+Learn_Skills.Chakra_Limit = 15000
 
 Learn_Skills.UI_Color = {
     Background = Color(32, 32, 32),
@@ -42,10 +44,8 @@ Learn_Skills.BoostGroup = {
 
 Learn_Skills.Team = {
     ["Instructeur - Ko"]    =   true,
-    ["Instructeur - Ki"]    =   true,
-    ["Chef Mangeka"]        =   true
+    ["Instructeur - Ki"]    =   true
 }
-
 
 Learn_Skills.Commands_Chat = {
     ["/skill"] = true,
@@ -69,6 +69,10 @@ Learn_Skills.Commands_Chat_Admin = {
     ["!techniques_admin"] = true,
     ["/technique_admin"] = true,
     ["!technique_admin"] = true
+}
+
+Learn_Skills.Chakra_Limit_Job = {
+    ["Lobby"] = 2000
 }
 
 Learn_Skills.Technical = {
@@ -373,7 +377,7 @@ Learn_Skills.Technical = {
         ["suiton_onde"] = true,
         ["weapon_sound_gun_07"] = true
     },
-    ["Puple Raiton"] = {
+    ["Purple Raiton"] = {
         ["purple_orbe_pourpre"] = true,
         ["purple_explosion_violette"] = true,
         ["purple_impulsion"] = true
@@ -398,3 +402,4 @@ Learn_Skills.Technical = {
         ["raiton_explosion_tourbillonante"] = true,
         ["raiton_mode_chakra"] = true
     }}
+    

@@ -1,5 +1,5 @@
 hook.Add("PlayerInitialSpawn", "Naruto_Perma_Weapons", function(ply)
-    if !file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") then
+    if !file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") && ply:IsValid() && !ply:IsBot() then
         local table = {
             ["Nature"] = math.random(1, 200),
             ["Chakra"] = math.random(600, 1000),
@@ -40,7 +40,7 @@ hook.Add("PlayerInitialSpawn", "Naruto_Perma_Weapons", function(ply)
 end)
 
 hook.Add("PlayerSpawn", "Naruto_Perma_Weapons", function(ply)
-    if file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") then
+    if file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") && ply:IsValid() && !ply:IsBot() then
         local table_data = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
         if table_data.Weapons then
             local weapons_learn = Learn_Skills.Technical[table_data.Nature] or {}
@@ -57,8 +57,16 @@ hook.Add("PlayerSpawn", "Naruto_Perma_Weapons", function(ply)
                 naruto_notif(ply, "Votre nature n'est pas compatible avec " .. tostring(weapons_cant_give) .. " techniques que vous avez apris !", 1, 4)
             end
         end
-        ply:SetNWInt("BCMana", table_data.Chakra)
-        ply:SetNWInt("BCMaxMana", table_data.Chakra)
+        local job_limit = Learn_Skills.Chakra_Limit_Job[team.GetName(ply:Team())]
+        if job_limit && (table_data.Chakra > job_limit) then
+            ply:SetNWInt("BCMana", job_limit)
+            ply:SetNWInt("BCMaxMana", job_limit)
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez atteit la limite maximale de chakra pour ce métier."}
+            skills_message(ply, message)
+        else
+            ply:SetNWInt("BCMana", table_data.Chakra)
+            ply:SetNWInt("BCMaxMana", table_data.Chakra)
+        end
     end
 end)
 

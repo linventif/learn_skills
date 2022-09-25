@@ -35,8 +35,6 @@ timer.Create("Auto_Skills", 360, 0, function()
                 else
                     table.Chakra = table.Chakra + chakra
                 end
-                ply:SetNWInt("BCMaxMana", table.Chakra)
-                ply:SetNWInt("BCMana", ply:GetNWInt("BCMana") + chakra)
                 message.color_3 = Color(255, 255, 255)
                 message.string_3 = " ainsi que "
                 message.color_4 = Color(255, 100, 0)
@@ -44,6 +42,19 @@ timer.Create("Auto_Skills", 360, 0, function()
                 message.color_5 = Color(255, 255, 255)
                 message.string_5 = " pour avoir joué sur le serveur."
                 file.Write("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", util.TableToJSON(table))
+            end
+
+            local job_limit = Learn_Skills.Chakra_Limit_Job[team.GetName(ply:Team())]
+            if job_limit && (table_data.Chakra > table.Chakra) then
+                ply:SetNWInt("BCMaxMana", job_limit)
+                if (ply:GetNWInt("BCMana") + chakra) <= job_limit then
+                    ply:SetNWInt("BCMana", ply:GetNWInt("BCMana") + chakra)
+                else
+                    ply:SetNWInt("BCMana", job_limit)
+                end
+            else
+                ply:SetNWInt("BCMaxMana", table.Chakra)
+                ply:SetNWInt("BCMana", ply:GetNWInt("BCMana") + chakra)
             end
         end
         skills_message(ply, message)
@@ -103,7 +114,7 @@ net.Receive("skills_teatching_end", function(len, ply)
         file.Write("linventif/learn_skills/players/" .. ply_data.ply:SteamID64() .. ".json", util.TableToJSON(ply_data_table))
         ply_data.ply:Give(ply_data.wep)
         if Learn_Skills.Advert then
-            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = ply_data.ply:Nick() .. " a appris avec succes ", ["color_2"] = Color(108, 216, 216), ["string_2"] = data_table.wep }
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = ply_data.ply:Nick() .. " a appris avec succes ", ["color_2"] = Color(108, 216, 216), ["string_2"] = ply_data.wep }
             net.Start("skills_message")
             net.WriteString(util.TableToJSON(message))
             net.Broadcast()
