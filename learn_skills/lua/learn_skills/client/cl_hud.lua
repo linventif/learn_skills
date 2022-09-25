@@ -21,7 +21,7 @@ hook.Add("HUDPaint", "HudLogique", function()
         end
         local chakra = ply:GetNWInt("BCMana", 1000) / ply:GetNWInt("BCMaxMana", 1000)
         local health = ply:Health() / ply:GetMaxHealth()
-        local level = ((ply:getDarkRPVar("xp") or 0)/(((10+(((ply:getDarkRPVar("level") or 1)*((ply:getDarkRPVar("level") or 1)+1)*90))))*LevelSystemConfiguration.XPMult))
+        --local level = ((ply:getDarkRPVar("xp") or 0)/(((10+(((ply:getDarkRPVar("level") or 1)*((ply:getDarkRPVar("level") or 1)+1)*90))))*LevelSystemConfiguration.XPMult))
 
         if health > 1 then health = 1 end
         if chakra > 1 then chakra = 1 end
@@ -40,14 +40,14 @@ hook.Add("HUDPaint", "HudLogique", function()
         surface.SetDrawColor(202, 56, 56, 255 )
 		surface.DrawRect(hud:RespX(46), hud:RespY(1080-118), hud:RespX(360*health), hud:RespY(20))
         surface.SetDrawColor(146, 56, 202, 255 )
-		surface.DrawRect(hud:RespX(46), hud:RespY(1080-92), hud:RespX(360*level), hud:RespY(20))
+		--surface.DrawRect(hud:RespX(46), hud:RespY(1080-92), hud:RespX(360*level), hud:RespY(20))
         surface.SetDrawColor(56, 105, 202, 255 )
 		surface.DrawRect(hud:RespX(46), hud:RespY(1080-66), hud:RespX(360*chakra), hud:RespY(20))
         draw.SimpleTextOutlined(ply:Nick(), "Simple_Hud_Font", hud:RespX(49), hud:RespY(1080-144), Color( 173, 173, 173, 255 ), TEXT_ALIGN_LEFT, 0, 0, Color(0, 0, 0, 255))
         draw.SimpleTextOutlined((ply:getDarkRPVar("money") or "ERREUR") .. " ¥", "Simple_Hud_Font", hud:RespX(400), hud:RespY(1080-144), Color( 173, 173, 173, 255 ), TEXT_ALIGN_RIGHT, 0, 0, Color(0, 0, 0, 255))
         draw.SimpleTextOutlined(team.GetName(ply:Team()), "Simple_Hud_Font", hud:RespX(220), hud:RespY(1080-144), Color( 173, 173, 173, 255 ), TEXT_ALIGN_CENTER, 0, 0, Color(0, 0, 0, 255))
         draw.SimpleTextOutlined( "Santé : " .. ply:Health() .. " / " .. ply:GetMaxHealth(), "Simple_Hud_Font", hud:RespX(49), hud:RespY(1080-118), Color( 173, 173, 173, 255 ), TEXT_ALIGN_LEFT, 0, 0, Color(0, 0, 0, 255))
-        draw.SimpleTextOutlined( "Level : " .. (ply:getDarkRPVar("level") or 0) .. " - " .. (math.floor(level * 100) or 0) .. " %", "Simple_Hud_Font", hud:RespX(49), hud:RespY(1080-92), Color( 173, 173, 173, 255 ), TEXT_ALIGN_LEFT, 0, 0, Color(0, 0, 0, 255))
+        --draw.SimpleTextOutlined( "Level : " .. (ply:getDarkRPVar("level") or 0) .. " - " .. (math.floor(level * 100) or 0) .. " %", "Simple_Hud_Font", hud:RespX(49), hud:RespY(1080-92), Color( 173, 173, 173, 255 ), TEXT_ALIGN_LEFT, 0, 0, Color(0, 0, 0, 255))
         draw.SimpleTextOutlined( "Chakra : " .. ply:GetNWInt("BCMana", 1000) .. " / " .. ply:GetNWInt("BCMaxMana", 1000), "Simple_Hud_Font", hud:RespX(49), hud:RespY(1080-66), Color( 173, 173, 173, 255 ), TEXT_ALIGN_LEFT, 0, 0, Color(0, 0, 0, 255))
     end
 end)

@@ -45,7 +45,8 @@ timer.Create("Auto_Skills", 360, 0, function()
             end
 
             local job_limit = Learn_Skills.Chakra_Limit_Job[team.GetName(ply:Team())]
-            if job_limit && (table_data.Chakra > table.Chakra) then
+            if job_limit && (table.Chakra > job_limit) then
+                print(table.Chakra)
                 ply:SetNWInt("BCMaxMana", job_limit)
                 if (ply:GetNWInt("BCMana") + chakra) <= job_limit then
                     ply:SetNWInt("BCMana", ply:GetNWInt("BCMana") + chakra)
