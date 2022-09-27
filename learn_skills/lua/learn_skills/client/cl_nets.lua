@@ -215,10 +215,55 @@ net.Receive("naruto_skills", function()
     end
     Button_1.DoClick = function()
         if table_ply.Reroll > 0 then
-            net.Start("naruto_reroll")
-            net.SendToServer()
-            frame_main:Close()
-            RunConsoleCommand("naruto_skills")
+            if Learn_Skills.Warning_Nature[table_ply.Nature] then
+                local confirm = vgui.Create("DFrame")
+                confirm:SetSize(800, 200)
+                confirm:Center()
+                confirm:SetTitle(" ")
+                confirm:MakePopup()
+                confirm:SetDraggable(false)
+                confirm:ShowCloseButton(false)
+                confirm.Paint = function(s, w, h)
+                    draw.RoundedBox(8, 0, 0, w, h, Learn_Skills.UI_Color.Other)
+                    draw.RoundedBox(6, 4, 4, w-8, h-8, Learn_Skills.UI_Color.Background)
+                    draw.SimpleText("Votre nature actuel est rare êtes vous sur de la changer ?", "Custom_Font_II", 800/2, 50, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+                end
+                local Button_no = vgui.Create("DButton", confirm)
+                Button_no:SetText("NON")
+                Button_no:SetFont("Custom_Font_II")
+                Button_no:SetPos(150, 100)
+                Button_no:SetSize(200, 60)
+                Button_no:SetColor(Color(255,255,255))
+                Button_no.Paint = function(s, w, h)
+                    draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
+                    draw.RoundedBox(2, 4, 4, w-8, h-8, Learn_Skills.UI_Color.Valid)
+                end
+                Button_no.DoClick = function()
+                    confirm:Close()
+                end
+                local Button_ok = vgui.Create("DButton", confirm)
+                Button_ok:SetText("OUI")
+                Button_ok:SetFont("Custom_Font_II")
+                Button_ok:SetPos(800-350, 100)
+                Button_ok:SetSize(200, 60)
+                Button_ok:SetColor(Color(255,255,255))
+                Button_ok.Paint = function(s, w, h)
+                    draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
+                    draw.RoundedBox(2, 4, 4, w-8, h-8, Learn_Skills.UI_Color.Danger)
+                end
+                Button_ok.DoClick = function()
+                    net.Start("naruto_reroll")
+                    net.SendToServer()
+                    confirm:Close()
+                    frame_main:Close()
+                    RunConsoleCommand("naruto_skills")
+                end
+            else
+                net.Start("naruto_reroll")
+                net.SendToServer()
+                frame_main:Close()
+                RunConsoleCommand("naruto_skills")
+            end
         else
             local table_notif = {
                 ["string"] = "Vous n'avez pas assez de reroll !",

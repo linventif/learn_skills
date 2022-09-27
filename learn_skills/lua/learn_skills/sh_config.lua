@@ -14,6 +14,8 @@ Learn_Skills.UI_Color = {
     Background = Color(32, 32, 32),
     Other = Color(60, 90, 120),
     Other_I = Color(80, 110, 140),
+    Danger = Color(200, 70, 70),
+    Valid = Color(70, 200, 70),
     Transparent = Color(255, 255, 255, 0)
 }
 
@@ -73,6 +75,17 @@ Learn_Skills.Commands_Chat_Admin = {
 
 Learn_Skills.Chakra_Limit_Job = {
     ["Lobby"] = 2000
+}
+
+Learn_Skills.Warning_Nature = {
+    ["Futton"] = true,
+    ["Bakuton"] = true,
+    ["Jinton"] = true,
+    ["Shakuton"] = true,
+    ["Jinton Dorée"] = true,
+    ["Ranton"] = true,
+    ["Shoton"] = true,
+    ["Purple Raiton"] = true
 }
 
 Learn_Skills.Technical = {
