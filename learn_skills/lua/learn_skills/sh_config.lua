@@ -6,6 +6,7 @@ Learn_Skills.Advert = true
 Learn_Skills.Auto_Chakra = true
 Learn_Skills.Auto_Points = true
 Learn_Skills.Chakra_Limit_Job = true
+Learn_Skills.Consol_Commands = true
 
 Learn_Skills.Version = 1
 Learn_Skills.Chakra_Limit = 15000
@@ -71,6 +72,11 @@ Learn_Skills.Commands_Chat_Admin = {
     ["!techniques_admin"] = true,
     ["/technique_admin"] = true,
     ["!technique_admin"] = true
+}
+
+Learn_Skills.Commands_Chat_New_Admin = {
+    ["/skill_new_admin"] = true,
+    ["!skill_new_admin"] = true,
 }
 
 Learn_Skills.Chakra_Limit_Job = {

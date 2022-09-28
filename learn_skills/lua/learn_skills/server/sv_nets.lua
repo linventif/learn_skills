@@ -1,16 +1,12 @@
 util.AddNetworkString("naruto_skills")
 util.AddNetworkString("naruto_skills_admin")
 util.AddNetworkString("naruto_message")
-util.AddNetworkString("naruto_table")
 util.AddNetworkString("naruto_skills_learn_server")
 util.AddNetworkString("naruto_skills_learn_client")
 util.AddNetworkString("naruto_skills_learn_a")
 util.AddNetworkString("skills_learning")
 util.AddNetworkString("skills_teatching")
 util.AddNetworkString("skills_teatching_end")
-util.AddNetworkString("skills_advert")
-util.AddNetworkString("skills_auto")
-util.AddNetworkString("skills_init")
 util.AddNetworkString("skills_message")
 
 timer.Create("Auto_Skills", 360, 0, function()
@@ -61,18 +57,6 @@ timer.Create("Auto_Skills", 360, 0, function()
         skills_message(ply, message)
     end
 end)
-
-/*
-for k, ply in pairs(player.GetAll()) do
-    if file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA") then
-        local table = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
-        ply:SetNWInt("BCMaxMana", table.Chakra)
-        ply:SetNWInt("BCMana", table.Chakra)
-        --ply:GetNWInt("BCMana", table.Chakra)
-        ply:ChatPrint("TEST CHAKRA")
-    end
-end
-*/
 
 net.Receive("naruto_skills_learn_server", function(len, ply)
     local ply_data = net.ReadTable()
@@ -132,34 +116,7 @@ net.Receive("naruto_reroll", function(len, ply)
         local table = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
         if table.Reroll > 0 then
             table.Reroll = table.Reroll -1
-            table.Nature = math.random(1, 200)
-            if table.Nature == 1 then
-                table.Nature = "Futton"
-            elseif table.Nature == 2 then
-                table.Nature = "Jinton"
-            elseif table.Nature == 3 then
-                table.Nature = "Jiton Dorée"
-            elseif table.Nature == 4 then
-                table.Nature = "Shoton"
-            elseif table.Nature == 5 then
-                table.Nature = "Bakuton"
-            elseif table.Nature == 6 then
-                table.Nature = "Shakuton"
-            elseif table.Nature == 7 then
-                table.Nature = "Ranton"
-            elseif table.Nature == 8 then
-                table.Nature = "Puple Raiton"
-            elseif table.Nature > 8 and table.Nature < 47 then
-                table.Nature = "Futon"
-            elseif table.Nature > 46 and table.Nature < 85 then
-                table.Nature = "Doton"
-            elseif table.Nature > 84 and table.Nature < 121 then
-                table.Nature = "Katon"
-            elseif table.Nature > 120 and table.Nature < 161 then
-                table.Nature = "Suiton"
-            else
-                table.Nature = "Raiton"
-            end
+            table.Nature = skills_nature()
             file.Write("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", util.TableToJSON(table))
             local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Votre nature a changé, vous êtes maintenant un ", ["color_2"] = Color(255, 100, 0), ["string_2"] = table.Nature}
             skills_message(ply, message)
@@ -172,8 +129,35 @@ net.Receive("naruto_reroll", function(len, ply)
     end
 end)
 
-
-util.AddNetworkString("naruto_cmd")
-net.Receive("naruto_cmd", function(len, ply)
-    naruto_skills(ply)
+util.AddNetworkString("skills_cmd")
+net.Receive("skills_cmd", function(len, ply)
+    local cmd_args = util.JSONToTable(net.ReadString())
+    if Learn_Skills.UserGroup[ply:GetUserGroup()] then
+        cmd_args.target = net.ReadEntity()
+        if cmd_args.cmd == "skills_reset" && cmd_args.target:IsValid() then
+            local skills_info = {
+                ["Nature"] = skills_nature(),
+                ["Chakra"] = math.random(600, 1000),
+                ["Reroll"] = 2
+            }
+            file.Write("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", util.TableToJSON(skills_info))
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez étais Role Play Kill, une nouvelle aventure commence pour vous."}
+            skills_message(cmd_args.target, message)
+            local message = {
+                ["color_1"] = Color(255, 255, 255), ["string_1"] = "Votre aventure commence en temps que ",
+                ["color_2"] = Color(255, 100, 0), ["string_2"] = skills_info.Nature,
+                ["color_3"] = Color(255, 255, 255), ["string_3"] = " plus d'info dans le /skills.",
+            }
+            skills_message(cmd_args.target, message, 4)
+            naruto_notif(ply, "Vous avez Role PLay Kill " .. cmd_args.target:Nick(), 0, 4)
+            cmd_args.target:KillSilent()
+            cmd_args.target:Spawn()
+            print(cmd_args.target)
+            hook.Run("learn_skills_reste", ply, cmd_args.target)
+        else
+            naruto_notif(ply, "Commande Invalide", 1, 4)
+        end
+    else
+        naruto_notif(ply, "Permission Insufisante", 1, 4)
+    end
 end)

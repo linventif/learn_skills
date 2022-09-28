@@ -9,9 +9,10 @@ function naruto_notif(ply, string, notif, time)
     net.Send(ply)
 end
 
-function skills_message(ply, message)
+function skills_message(ply, message, delay)
     net.Start("skills_message")
     net.WriteString(util.TableToJSON(message))
+    if delay then net.WriteInt(delay, 5) end
     net.Send(ply)
 end
 
@@ -45,4 +46,36 @@ function naruto_skills_admin(ply)
     net.Start("naruto_skills_admin")
     net.WriteTable(table_data)
     net.Send(ply)
+end
+
+function skills_nature()
+    local nature = math.random(1, 200)
+    if nature == 1 then
+        nature = "Futton"
+    elseif nature == 2 then
+        nature = "Jinton"
+    elseif nature == 3 then
+        nature = "Jiton Dorée"
+    elseif nature == 4 then
+        nature = "Shoton"
+    elseif nature == 5 then
+        nature = "Bakuton"
+    elseif nature == 6 then
+        nature = "Shakuton"
+    elseif nature == 7 then
+        nature = "Ranton"
+    elseif nature == 8 then
+        nature = "Puple Raiton"
+    elseif nature > 8 and nature < 47 then
+        nature = "Futon"
+    elseif nature > 46 and nature < 85 then
+        nature = "Doton"
+    elseif nature > 84 and nature < 121 then
+        nature = "Katon"
+    elseif nature > 120 and nature < 161 then
+        nature = "Suiton"
+    else
+        nature = "Raiton"
+    end
+    return nature
 end

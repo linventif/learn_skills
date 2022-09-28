@@ -79,16 +79,8 @@ net.Receive("naruto_message", function()
     naruto_notif(table)
 end)
 
-net.Receive("naruto_table", function()
-    local table = net.ReadTable()
-    timer.Simple(5, function()
-        chat.AddText(Color(255, 255, 255), "Votre aventure commence en temps que ", Color(108, 216, 216), table.Nature, Color(255, 255, 255), " ainsi qu'avec ", Color(108, 216, 216), util.TypeToString(table.Chakra), Color(255, 255, 255), " de chakra.")
-    end)
-end)
-
 net.Receive("skills_message", function()
-    local skills_message = util.JSONToTable(net.ReadString())
-    chat.AddText(Color(255, 100, 0), "Learn Skills | ", skills_message.color_1, skills_message.string_1, skills_message.color_2, skills_message.string_2, skills_message.color_3, skills_message.string_3, skills_message.color_4, skills_message.string_4, skills_message.color_5, skills_message.string_5)
+    skills_message(util.JSONToTable(net.ReadString()), net.ReadInt(5) or 0)
 end)
 
 
@@ -804,9 +796,4 @@ net.Receive("skills_learning", function()
     label_plyz:SetText("Instructeur : " .. ply_data.instructor:Nick())
     label_plyz:SetFont("Custom_Font_III")
     label_plyz:SizeToContents()
-end)
-
-concommand.Add("naruto_skills", function(ply, cmd, args)
-    net.Start("naruto_cmd")
-    net.SendToServer()
 end)

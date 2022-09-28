@@ -88,35 +88,33 @@ surface.CreateFont( "Custom_Font_V", {
 	outline = false,
 })
 
-function naruto_notif(data_table)
-    notification.AddLegacy(data_table.string, data_table.notif, data_table.time)
-    print(data_table.string)
+function skills_client_notif(string, notif, time)
+    local table = {
+        ["string"] = string,
+        ["notif"] = notif,
+        ["time"] = time
+    }
+    naruto_notif(table)
 end
 
-function naruto_message(data_table)
-    chat.AddText(Color(108, 216, 216), "Skills Learn | ", Color(255, 255, 255), data_table.string)
+function naruto_notif(notif)
+    PrintTable(notif)
+    notification.AddLegacy(notif.string, notif.notif, notif.time)
+    print(notif.string)
 end
 
-function net_to_server(cmd, traget_ply, value)
-    net.Start("naruto_cmd")
-    net.WriteString(cmd)
-    net.WriteEntity(traget_ply)
-    if value then
-        if isstring(value) then
-            net.WriteBool(true)
-            net.WriteString(value)
-        else
-            net.WriteBool(false)
-            net.WriteInt(value, 32)
-        end
-    end
+function skills_message(message, delay)
+    timer.Simple(delay, function()
+        chat.AddText(Color(255, 100, 0), "Learn Skills | ", message.color_1, message.string_1, message.color_2, message.string_2, message.color_3, message.string_3, message.color_4, message.string_4, message.color_5, message.string_5)
+    end)
+end
+
+function net_to_server(info, target)
+    net.Start("skills_cmd")
+    net.WriteString(util.TableToJSON(info))
+    net.WriteEntity(target)
     net.SendToServer()
 end
-
---local function message(string, notif, time)
---    notification.AddLegacy(string, notif, time)
---    print(string)
---end
 
 function naruto_info()
     local Naruto_Info = vgui.Create("DFrame")

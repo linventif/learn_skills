@@ -1,41 +1,17 @@
 hook.Add("PlayerInitialSpawn", "Naruto_Perma_Weapons", function(ply)
     if !file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") && ply:IsValid() && !ply:IsBot() then
-        local table = {
-            ["Nature"] = math.random(1, 200),
+        local skills_info = {
+            ["Nature"] = skills_nature(),
             ["Chakra"] = math.random(600, 1000),
-            ["Reroll"] = 2,
+            ["Reroll"] = 2
         }
-        if table.Nature == 1 then
-            table.Nature = "Futton"
-        elseif table.Nature == 2 then
-            table.Nature = "Jinton"
-        elseif table.Nature == 3 then
-            table.Nature = "Jiton Dorée"
-        elseif table.Nature == 4 then
-            table.Nature = "Shoton"
-        elseif table.Nature == 5 then
-            table.Nature = "Bakuton"
-        elseif table.Nature == 6 then
-            table.Nature = "Shakuton"
-        elseif table.Nature == 7 then
-            table.Nature = "Ranton"
-        elseif table.Nature == 8 then
-            table.Nature = "Puple Raiton"
-        elseif table.Nature > 8 and table.Nature < 47 then
-            table.Nature = "Futon"
-        elseif table.Nature > 46 and table.Nature < 85 then
-            table.Nature = "Doton"
-        elseif table.Nature > 84 and table.Nature < 121 then
-            table.Nature = "Katon"
-        elseif table.Nature > 120 and table.Nature < 161 then
-            table.Nature = "Suiton"
-        else
-            table.Nature = "Raiton"
-        end
-        file.Write("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", util.TableToJSON(table))
-
-        local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez automatiquement reçu ", ["color_2"] = Color(255, 100, 0), ["string_2"] = points .. " Super Points", ["color_3"] = Color(255, 255, 255), ["string_3"] = " pour avoir joué sur le serveur." }
-        skills_message(ply, message)
+        file.Write("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", util.TableToJSON(skills_info))
+        local message = {
+            ["color_1"] = Color(255, 255, 255), ["string_1"] = "Votre aventure commence en temps que ",
+            ["color_2"] = Color(255, 100, 0), ["string_2"] = skills_info.Nature,
+            ["color_3"] = Color(255, 255, 255), ["string_3"] = " plus d'info dans le /skills.",
+        }
+        skills_message(ply, message, 4)
     end
 end)
 
@@ -47,7 +23,7 @@ hook.Add("PlayerSpawn", "Naruto_Perma_Weapons", function(ply)
             local weapons_cant_give = 0
             table.Merge(weapons_learn, Learn_Skills.Technical.Commun)
             for k, v in ipairs(table_data.Weapons) do
-                if weapons_learn[v] then
+                if weapons_learn[v] and v:IsValid() then
                     ply:Give(v)
                 else
                     weapons_cant_give = weapons_cant_give + 1
@@ -79,6 +55,13 @@ end)
 hook.Add( "PlayerSay", "naruto_skills_admin", function(ply, text)
 	if Learn_Skills.Commands_Chat_Admin[string.lower(text)] and Learn_Skills.UserGroup[ply:GetUserGroup()] then
         naruto_skills_admin(ply)
+	end
+end)
+util.AddNetworkString("lean_skills_new_admin")
+hook.Add("PlayerSay", "lean_skills_new_admin", function(ply, text)
+	if Learn_Skills.Commands_Chat_New_Admin[string.lower(text)] && Learn_Skills.UserGroup[ply:GetUserGroup()] then
+        net.Start("lean_skills_new_admin")
+        net.Send(ply)
 	end
 end)
 
