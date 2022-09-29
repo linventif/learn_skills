@@ -14,6 +14,9 @@ print(" ")
 
 local folder = "learn_skills"
 
+Learn_Skills = {}
+Learn_Skills.Version = 1
+
 AddCSLuaFile(folder .. "/sh_config.lua")
 include(folder .. "/sh_config.lua")
 
@@ -35,6 +38,8 @@ if SERVER then
 	for k, v in ipairs(file.Find(folder .. "/client/*.lua", "LUA")) do
 		AddCSLuaFile(folder .. "/client/" .. v)
 	end
+
+	AddCSLuaFile(folder .. "/language/" .. string.lower(Learn_Skills.Config.Language) .. ".lua")
 else
 	for k, v in ipairs(file.Find(folder .. "/server/*.lua", "LUA")) do
 		include(folder .. "/server/" .. v)
@@ -43,4 +48,7 @@ else
 	for k, v in ipairs(file.Find(folder .. "/client/*.lua", "LUA")) do
 		include(folder .. "/client/" .. v)
 	end
+
+	include(folder .. "/language/" .. string.lower(Learn_Skills.Config.Language) .. ".lua")
 end
+PrintTable(Learn_Skills.Language)

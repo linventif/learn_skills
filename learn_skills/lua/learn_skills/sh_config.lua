@@ -1,16 +1,48 @@
-Learn_Skills = {}
+--[[ Main Configuration ]]--
+Learn_Skills.Config = {
+    ["Language"] = "French", --Learn_Skills.Config.Language = "French" -- French or English
+    ["Advert"] = true, -- Made advert when somone learn a skill
+}
 
-Learn_Skills.Text = "Table des Techinques"
+Learn_Skills.Auto_Chakra = true -- Automatically give Chakra
+Learn_Skills.Auto_Points = true -- Automatically give Points Shop Points
+Learn_Skills.Chakra_Limit_Job = true -- Enable Chakra Limit by Job
+Learn_Skills.Chakra_Limit = 15000 -- Set Chakra Limit
+Learn_Skills.Boost = true -- Enable Boost Chakra & Points
+Learn_Skills.BoostGroup = {
+    ["superadmin"]      =   true,
+    ["helper"]          =   true,
+    ["super-admin"]     =   true,
+    ["admin"]           =   true,
+    ["mono"]            =   true,
+    ["modo-test"]       =   true,
+    ["premium"]         =   true,
+    ["vip"]             =   true
+}
 
-Learn_Skills.Advert = true
-Learn_Skills.Auto_Chakra = true
-Learn_Skills.Auto_Points = true
-Learn_Skills.Chakra_Limit_Job = true
-Learn_Skills.Consol_Commands = true
+--[[ Admin Configuration ]]--
+Learn_Skills.ULX_Commands = true -- Enable ULX Commands
+Learn_Skills.SAM_Commands = false -- Enable SAM Commands
+Learn_Skills.Consol_Commands = true -- Enable Consol Commands
 
-Learn_Skills.Version = 1
-Learn_Skills.Chakra_Limit = 15000
+Learn_Skills.GroupCanAcces = {
+    ["superadmin"]      =   true,
+    ["helper"]          =   true,
+    ["super-admin"]     =   true,
+    ["admin"]           =   true,
+    ["modo"]            =   true,
+    ["modo-test"]       =   true
+}
 
+Learn_Skills.GroupCanEdit = {
+    ["superadmin"]      =   true,
+    ["helper"]          =   true,
+    ["super-admin"]     =   true,
+    ["admin"]           =   true,
+    ["modo"]            =   true
+}
+
+--[[ User Interface Configuration ]]--
 Learn_Skills.UI_Color = {
     Background = Color(32, 32, 32),
     Other = Color(60, 90, 120),
@@ -25,31 +57,7 @@ Learn_Skills.Size = {
     y = 720
 }
 
-Learn_Skills.UserGroup = {
-    ["superadmin"]      =   true,
-    ["helper"]          =   true,
-    ["super-admin"]     =   true,
-    ["admin"]           =   true,
-    ["modo"]            =   true,
-    ["modo-test"]       =   true
-}
-
-Learn_Skills.BoostGroup = {
-    ["superadmin"]      =   true,
-    ["helper"]          =   true,
-    ["super-admin"]     =   true,
-    ["admin"]           =   true,
-    ["mono"]            =   true,
-    ["modo-test"]       =   true,
-    ["premium"]         =   true,
-    ["vip"]             =   true
-}
-
-Learn_Skills.Team = {
-    ["Instructeur - Ko"]    =   true,
-    ["Instructeur - Ki"]    =   true
-}
-
+--[[ Commands Configuration ]]--
 Learn_Skills.Commands_Chat = {
     ["/skill"] = true,
     ["!skill"] = true,
@@ -74,15 +82,22 @@ Learn_Skills.Commands_Chat_Admin = {
     ["!technique_admin"] = true
 }
 
+--[[ Jobs Configuration ]]--
+Learn_Skills.Chakra_Limit_Job = {
+    ["Lobby"] = 2000
+}
+
 Learn_Skills.Commands_Chat_New_Admin = {
     ["/skill_new_admin"] = true,
     ["!skill_new_admin"] = true,
 }
 
-Learn_Skills.Chakra_Limit_Job = {
-    ["Lobby"] = 2000
+Learn_Skills.Team = {
+    ["Instructeur - Ko"]    =   true,
+    ["Instructeur - Ki"]    =   true
 }
 
+--[[ Nature Configuration ]]--
 Learn_Skills.Warning_Nature = {
     ["Futton"] = true,
     ["Bakuton"] = true,
@@ -94,6 +109,7 @@ Learn_Skills.Warning_Nature = {
     ["Purple Raiton"] = true
 }
 
+--[[ Technical Configuration ]]--
 Learn_Skills.Technical = {
     ["Commun"] = {
         ["weapon_m42"] = true,
@@ -420,5 +436,22 @@ Learn_Skills.Technical = {
         ["raiton_foudre_divine"] = true,
         ["raiton_explosion_tourbillonante"] = true,
         ["raiton_mode_chakra"] = true
-    }}
-    
+    }
+}
+
+
+
+--[[ Permission Group Configuration ]]--
+Learn_Skills.UserGroup = {
+    ["superadmin"]      =   true,
+    ["helper"]          =   true,
+    ["super-admin"]     =   true,
+    ["admin"]           =   true,
+    ["modo"]            =   true,
+    ["modo-test"]       =   true
+}
+
+Learn_Skills.Commands_Chat_New_Admin = {
+    ["/skill_new_admin"] = true,
+    ["!skill_new_admin"] = true,
+}

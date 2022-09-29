@@ -14,6 +14,23 @@ if Learn_Skills.Consol_Commands then
             skills_client_notif("Erreur Commande : " .. cmd .. " steamid64", 1, 4)
         end
     end)
+    concommand.Add("skills_steamid64", function()
+        print(" ")
+        print(" ")
+        print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
+        print(" -                                                           - ")
+        for _, v in ipairs(player.GetAll()) do
+            local space = ""
+            for i = (32-string.len(v:Nick())),1,-1 do
+                space = space .. "-"
+            end
+            print(" -    " .. v:Nick() .. " " .. space .. " " .. v:SteamID64() .. "    - ")
+        end
+        print(" -                                                           - ")
+        print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
+        print(" ")
+        print(" ")
+    end)
 end
 
 /*
@@ -130,7 +147,4 @@ concommand.Add("naruto_info", function(ply, cmd, args)
     end
 end)
 
-concommand.Add("mon_steamid", function(ply, cmd, args)
-    ply:ChatPrint("Steam ID : " .. ply:SteamID() .. "         Steam ID 64 : " .. ply:SteamID64())
-    print("Steam ID : " .. ply:SteamID() .. "         Steam ID 64 : " .. ply:SteamID64())
-end)*/
+*/

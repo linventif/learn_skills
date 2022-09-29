@@ -132,7 +132,7 @@ end)
 util.AddNetworkString("skills_cmd")
 net.Receive("skills_cmd", function(len, ply)
     local cmd_args = util.JSONToTable(net.ReadString())
-    if Learn_Skills.UserGroup[ply:GetUserGroup()] then
+    if Learn_Skills.GroupCanEdit[ply:GetUserGroup()] then
         cmd_args.target = net.ReadEntity()
         if cmd_args.cmd == "skills_reset" && cmd_args.target:IsValid() then
             local skills_info = {

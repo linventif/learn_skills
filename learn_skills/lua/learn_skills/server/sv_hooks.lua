@@ -23,7 +23,7 @@ hook.Add("PlayerSpawn", "Naruto_Perma_Weapons", function(ply)
             local weapons_cant_give = 0
             table.Merge(weapons_learn, Learn_Skills.Technical.Commun)
             for k, v in ipairs(table_data.Weapons) do
-                if weapons_learn[v] and v:IsValid() then
+                if weapons_learn[v] && weapons.Get(v) then
                     ply:Give(v)
                 else
                     weapons_cant_give = weapons_cant_give + 1
@@ -46,7 +46,7 @@ hook.Add("PlayerSpawn", "Naruto_Perma_Weapons", function(ply)
     end
 end)
 
-hook.Add( "PlayerSay", "naruto_skills", function(ply, text)
+hook.Add("PlayerSay", "naruto_skills", function(ply, text)
 	if Learn_Skills.Commands_Chat[string.lower(text)] then
         naruto_skills(ply)
 	end
