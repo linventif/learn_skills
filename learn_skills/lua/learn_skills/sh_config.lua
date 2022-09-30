@@ -1,8 +1,34 @@
+/*
+Learn_Skills.Config = {
+    --[[ Main Configuration ]]--
+    ["Language"] = "French",        --      French or English
+    ["Advert"] = true,              --      Made advert when somone learn a skill
+    ["Auto_Chakra"] = true,         --      Automatically give Chakra
+    ["Auto_Points"] = true,         --      Automatically give Points Shop Points
+    ["Chakra_Limit_Job"] = true,    --      Enable Chakra Limit by Job
+    ["Chakra_Limit"] = 15000,       --      Set Chakra Limit
+    ["Boost"] = true,               --      Enable Boost Chakra & Points
+    ["BoostGroup"] = {
+        ["superadmin"]      =   true,
+        ["helper"]          =   true,
+        ["super-admin"]     =   true,
+        ["admin"]           =   true,
+        ["mono"]            =   true,
+        ["modo-test"]       =   true,
+        ["premium"]         =   true,
+        ["vip"]             =   true
+    }
+    --[[ Admin Configuration ]]--
+}
+*/
 --[[ Main Configuration ]]--
 Learn_Skills.Config = {
     ["Language"] = "French", --Learn_Skills.Config.Language = "French" -- French or English
     ["Advert"] = true, -- Made advert when somone learn a skill
 }
+--[[ Chakra Configuration ]]--
+Learn_Skills.Config.Random_Chakra_Max = 1000 -- Maximum Chakra Random Give at the First Join or Admin Reset
+Learn_Skills.Config.Random_Chakra_Min = 600 -- Minimum Chakra Random Give at the First Join or Admin Reset
 
 Learn_Skills.Auto_Chakra = true -- Automatically give Chakra
 Learn_Skills.Auto_Points = true -- Automatically give Points Shop Points

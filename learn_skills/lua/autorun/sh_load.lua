@@ -5,21 +5,25 @@ print(" -                                                           - ")
 print(" -                       Learn Skills                        - ")
 print(" -                                                           - ")
 print(" -                   Create by Linventif                     - ")
-print(" -        Join my discord : https://dsc.gg/linventif         - ")
-print(" -         Watch my website : https://linventif.org          - ")
+print(" -        Join my discord : https://dsc.linventif.fr         - ")
 print(" -                                                           - ")
 print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
 print(" ")
-print(" ")
 
 local folder = "learn_skills"
-
 Learn_Skills = {}
 Learn_Skills.Version = 1
 
+// Load Config File
 AddCSLuaFile(folder .. "/sh_config.lua")
 include(folder .. "/sh_config.lua")
 
+// Load LAnguage File
+AddCSLuaFile(folder .. "/languages/" .. string.lower(Learn_Skills.Config.Language) .. ".lua")
+include(folder .. "/language/" .. string.lower(Learn_Skills.Config.Language) .. ".lua")
+print("| Learn Skills | File Load | addons/" .. folder .. "/lua/" .. folder .. "/languages/" .. string.lower(Learn_Skills.Config.Language) .. ".lua")
+
+// Load Other Files
 if SERVER then
     if !file.Exists("linventif", "data") then
         file.CreateDir("linventif")
@@ -33,13 +37,13 @@ if SERVER then
 
 	for k, v in ipairs(file.Find(folder .. "/server/*.lua", "LUA")) do
 		include(folder .. "/server/" .. v)
+        print("| Learn Skills | File Load | addons/" .. folder .. "/lua/" .. folder .. "/server/" .. v)
 	end
 
 	for k, v in ipairs(file.Find(folder .. "/client/*.lua", "LUA")) do
+        print("| Learn Skills | File Load | addons/" .. folder .. "/lua/" .. folder .. "/client/" .. v)
 		AddCSLuaFile(folder .. "/client/" .. v)
 	end
-
-	AddCSLuaFile(folder .. "/language/" .. string.lower(Learn_Skills.Config.Language) .. ".lua")
 else
 	for k, v in ipairs(file.Find(folder .. "/server/*.lua", "LUA")) do
 		include(folder .. "/server/" .. v)
@@ -48,7 +52,7 @@ else
 	for k, v in ipairs(file.Find(folder .. "/client/*.lua", "LUA")) do
 		include(folder .. "/client/" .. v)
 	end
-
-	include(folder .. "/language/" .. string.lower(Learn_Skills.Config.Language) .. ".lua")
 end
-PrintTable(Learn_Skills.Language)
+
+print(" ")
+print(" ")

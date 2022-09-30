@@ -2,7 +2,7 @@ hook.Add("PlayerInitialSpawn", "Naruto_Perma_Weapons", function(ply)
     if !file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") && ply:IsValid() && !ply:IsBot() then
         local skills_info = {
             ["Nature"] = skills_nature(),
-            ["Chakra"] = math.random(600, 1000),
+            ["Chakra"] = math.random(Learn_Skills.Config.Random_Chakra_Min, Learn_Skills.Config.Random_Chakra_Max),
             ["Reroll"] = 2
         }
         file.Write("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", util.TableToJSON(skills_info))

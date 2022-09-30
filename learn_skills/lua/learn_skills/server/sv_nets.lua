@@ -132,28 +132,95 @@ end)
 util.AddNetworkString("skills_cmd")
 net.Receive("skills_cmd", function(len, ply)
     local cmd_args = util.JSONToTable(net.ReadString())
-    if Learn_Skills.GroupCanEdit[ply:GetUserGroup()] then
-        cmd_args.target = net.ReadEntity()
-        if cmd_args.cmd == "skills_reset" && cmd_args.target:IsValid() then
+    cmd_args.target = net.ReadEntity()
+    if Learn_Skills.GroupCanEdit[ply:GetUserGroup()]  && cmd_args.target:IsValid() then
+        if cmd_args.cmd == "skills_reset" then
             local skills_info = {
                 ["Nature"] = skills_nature(),
-                ["Chakra"] = math.random(600, 1000),
+                ["Chakra"] = math.random(Learn_Skills.Config.Random_Chakra_Min, Learn_Skills.Config.Random_Chakra_Max),
                 ["Reroll"] = 2
             }
             file.Write("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", util.TableToJSON(skills_info))
             local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez étais Role Play Kill, une nouvelle aventure commence pour vous."}
             skills_message(cmd_args.target, message)
-            local message = {
-                ["color_1"] = Color(255, 255, 255), ["string_1"] = "Votre aventure commence en temps que ",
-                ["color_2"] = Color(255, 100, 0), ["string_2"] = skills_info.Nature,
-                ["color_3"] = Color(255, 255, 255), ["string_3"] = " plus d'info dans le /skills.",
-            }
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Votre aventure commence en temps que ", ["color_2"] = Color(255, 100, 0), ["string_2"] = skills_info.Nature, ["color_3"] = Color(255, 255, 255), ["string_3"] = " plus d'info dans le /skills."}
             skills_message(cmd_args.target, message, 4)
             naruto_notif(ply, "Vous avez Role PLay Kill " .. cmd_args.target:Nick(), 0, 4)
             cmd_args.target:KillSilent()
             cmd_args.target:Spawn()
             print(cmd_args.target)
             hook.Run("learn_skills_reste", ply, cmd_args.target)
+        elseif cmd_args.cmd == "skills_weapon_give" then
+            cmd_args.target:Give(cmd_args.value)
+            local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
+            if skills_info.Weapons then
+                table.insert(skills_info.Weapons, cmd_args.value)
+            else
+                skills_info.Weapons = {cmd_args.value}
+            end
+            file.Write("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", util.TableToJSON(skills_info))
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez reçu ", ["color_2"] = Color(255, 100, 0), ["string_2"] = cmd_args.value, ["color_3"] = Color(255, 255, 255), ["string_3"] = "."}
+            skills_message(cmd_args.target, message)
+            naruto_notif(ply, "Vous avez donner " .. cmd_args.value .. " a " .. cmd_args.target:Nick(), 0, 4)
+            hook.Run("learn_skills_weapon_give", ply, cmd_args.target, cmd_args.value)
+        elseif cmd_args.cmd == "skills_weapon_remove" then
+            cmd_args.target:StripWeapon(cmd_args.value)
+            local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
+            if skills_info.Weapons then
+                for k, v in pairs(skills_info.Weapons) do
+                    if v == cmd_args.value then
+                        table.remove(skills_info.Weapons, k)
+                    end
+                end
+            else
+                local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Le joueurs ", ["color_2"] = Color(255, 100, 0), ["string_2"] = cmd_args.target:Nick(), ["color_3"] = Color(255, 255, 255), ["string_3"] = " n'a pas de appris ", ["color_4"] = Color(255, 100, 0), ["string_4"] = cmd_args.value}
+                skills_message(ply, message)
+            end
+            file.Write("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", util.TableToJSON(skills_info))
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez perdu ", ["color_2"] = Color(255, 100, 0), ["string_2"] = cmd_args.value, ["color_3"] = Color(255, 255, 255), ["string_3"] = "."}
+            skills_message(cmd_args.target, message)
+            naruto_notif(ply, "Vous avez enlever " .. cmd_args.value .. " a " .. cmd_args.target:Nick(), 0, 4)
+            hook.Run("learn_skills_weapon_remove", ply, cmd_args.target, cmd_args.value)
+        elseif cmd_args.cmd == "skills_weapon_reset" then
+            local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
+            skills_info.Weapons = {}
+            file.Write("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", util.TableToJSON(skills_info))
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez perdu tout vos armes."}
+            skills_message(cmd_args.target, message)
+            naruto_notif(ply, "Vous avez enlever tout les armes de " .. cmd_args.target:Nick(), 0, 4)
+            hook.Run("learn_skills_weapon_reset", ply, cmd_args.target)
+        elseif cmd_args.cmd == "skills_chakra_add" then
+            local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
+            skills_info.Chakra = skills_info.Chakra + cmd_args.value
+            file.Write("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", util.TableToJSON(skills_info))
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez reçu ", ["color_2"] = Color(255, 100, 0), ["string_2"] = cmd_args.value, ["color_3"] = Color(255, 255, 255), ["string_3"] = " de Chakra."}
+            skills_message(cmd_args.target, message)
+            naruto_notif(ply, "Vous avez donné " .. cmd_args.value .. " de Chakra a " .. cmd_args.target:Nick(), 0, 4)
+            hook.Run("learn_skills_add", ply, cmd_args.target, cmd_args.value)
+        elseif cmd_args.cmd == "skills_chakra_remove" then
+            local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
+            skills_info.Chakra = skills_info.Chakra - cmd_args.value
+            file.Write("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", util.TableToJSON(skills_info))
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez perdu ", ["color_2"] = Color(255, 100, 0), ["string_2"] = cmd_args.value, ["color_3"] = Color(255, 255, 255), ["string_3"] = " de Chakra."}
+            skills_message(cmd_args.target, message)
+            naruto_notif(ply, "Vous avez enlever " .. cmd_args.value .. " de Chakra a " .. cmd_args.target:Nick(), 0, 4)
+            hook.Run("learn_skills_remove", ply, cmd_args.target, cmd_args.value)
+        elseif cmd_args.cmd == "skills_chakra_reset" then
+            local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
+            skills_info.Chakra = math.random(Learn_Skills.Config.Random_Chakra_Min, Learn_Skills.Config.Random_Chakra_Max)
+            file.Write("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", util.TableToJSON(skills_info))
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez perdu tout votre Chakra."}
+            skills_message(cmd_args.target, message)
+            naruto_notif(ply, "Vous avez enlever tout le Chakra de " .. cmd_args.target:Nick(), 0, 4)
+            hook.Run("learn_skills_reset", ply, cmd_args.target)
+        elseif cmd_args.cmd == "skills_chakra_set" then
+            local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
+            skills_info.Chakra = cmd_args.value
+            file.Write("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", util.TableToJSON(skills_info))
+            local message = {["color_1"] = Color(255, 255, 255), ["string_1"] = "Vous avez reçu ", ["color_2"] = Color(255, 100, 0), ["string_2"] = cmd_args.value, ["color_3"] = Color(255, 255, 255), ["string_3"] = " de Chakra."}
+            skills_message(cmd_args.target, message)
+            naruto_notif(ply, "Vous avez donné " .. cmd_args.value .. " de Chakra a " .. cmd_args.target:Nick(), 0, 4)
+            hook.Run("learn_skills_set", ply, cmd_args.target, cmd_args.value)
         else
             naruto_notif(ply, "Commande Invalide", 1, 4)
         end

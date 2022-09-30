@@ -8,7 +8,6 @@ function naruto_notif(ply, string, notif, time)
     net.WriteTable(table)
     net.Send(ply)
 end
-
 function skills_message(ply, message, delay)
     net.Start("skills_message")
     net.WriteString(util.TableToJSON(message))
