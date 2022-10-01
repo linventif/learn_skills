@@ -15,18 +15,13 @@ if Learn_Skills.Consol_Commands then
             end
             skills_client_notif("Erreur Commande : " .. cmd .. " <steamid64>", 1, 4)
         else
-            if (args[1] == 17) then
+            if (string.len(tostring(args[1])) == 17) && player.GetBySteamID64(args[1]) then
                 local cmd_args = {
                     ["cmd"] = cmd,
                     ["value"] = args[2] or nil
                 }
-                -- net_to_server(cmd_args, traget_ply)
-                --  print(ply)
-                --  print(cmd)
-                --  PrintTable(arg)
-                --  print(nb_arg)
+                net_to_server(cmd_args, player.GetBySteamID64(args[1]))
             else
-                print(player.GetBySteamID64(args[1]))
                 skills_client_notif("Joueur Invalide", 1, 4)
             end
         end
@@ -43,7 +38,7 @@ if Learn_Skills.Consol_Commands then
     concommand.Add("skills_weapon_reset", function(ply, cmd, args)
         cmd_args(ply, cmd, args, 1)
     end)
-    concommand.Add("skills_chakra_add", function(ply, cmd, args)
+    concommand.Add("skills_chakra_give", function(ply, cmd, args)
         cmd_args(ply, cmd, args, 2)
     end)
     concommand.Add("skills_chakra_remove", function(ply, cmd, args)
@@ -55,126 +50,62 @@ if Learn_Skills.Consol_Commands then
     concommand.Add("skills_chakra_reset", function(ply, cmd, args)
         cmd_args(ply, cmd, args, 1)
     end)
-    concommand.Add("skills_nature_reset", function(ply, cmd, args)
+    concommand.Add("skills_nature_set", function(ply, cmd, args)
         cmd_args(ply, cmd, args, 2)
     end)
-    concommand.Add("skills_steamid64", function()
+    concommand.Add("skills_reroll_give", function(ply, cmd, args)
+        cmd_args(ply, cmd, args, 2)
+    end)
+    concommand.Add("skills_reroll_set", function(ply, cmd, args)
+        cmd_args(ply, cmd, args, 2)
+    end)
+    concommand.Add("skills_reroll_remove", function(ply, cmd, args)
+        cmd_args(ply, cmd, args, 2)
+    end)
+    concommand.Add("skills_reroll_reset", function(ply, cmd, args)
+        cmd_args(ply, cmd, args, 1)
+    end)
+    concommand.Add("skills_info", function()
         print(" ")
         print(" ")
         print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
         print(" -                                                           - ")
+        print(" -              skills_weapon_reset <steamid64>              - ")
+        print(" -           skills_weapon_give <steamid64> <weapon>         - ")
+        print(" -          skills_weapon_remove <steamid64> <weapon>        - ")
+        print(" -                                                           - ")
+        print(" -              skills_reroll_reset <steamid64>              - ")
+        print(" -          skills_reroll_remove <steamid64> <value>         - ")
+        print(" -            skills_reroll_set <steamid64> <value>          - ")
+        print(" -            skills_reroll_give <steamid64> <value>         - ")
+        print(" -                                                           - ")
+        print(" -            skills_nature_set <steamid64> <value>          - ")
+        print(" -                                                           - ")
+        print(" -              skills_chakra_reset <steamid64>              - ")
+        print(" -          skills_chakra_remove <steamid64> <value>         - ")
+        print(" -            skills_chakra_set <steamid64> <value>          - ")
+        print(" -            skills_chakra_give <steamid64> <value>         - ")
+        print(" -                                                           - ")
+        print(" -                  skills_reset <steamid64>                 - ")
+        print(" -                                                           - ")
+        print(" -                         skills_info                       - ")
+        print(" -                                                           - ")
+        print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
+        print(" -                                                           - ")
+        print(" -    Nom                                       steamid64    - ")
+        print(" -                                                           - ")
         for _, v in ipairs(player.GetAll()) do
-            local space = ""
-            for i = (32-string.len(v:Nick())),1,-1 do
-                space = space .. "-"
+            if !v:IsBot() && v:IsValid() then
+                local space = ""
+                for i = (32-string.len(v:Nick())),1,-1 do
+                    space = space .. "-"
+                end
+                print(" -    " .. v:Nick() .. " " .. space .. " " .. v:SteamID64() .. "    - ")
             end
-            print(" -    " .. v:Nick() .. " " .. space .. " " .. v:SteamID64() .. "    - ")
         end
         print(" -                                                           - ")
         print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
         print(" ")
         print(" ")
     end)
---    concommand.Add("skills_infos", function()
---        print(" ")
---        print(" ")
---        print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
---        print(" -                                                           - ")
---        print(" -                                                           - ")
---        
---        print(" -                                                           - ")
---        print(" - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - ")
---        print(" ")
---        print(" ")
---    end)
 end
-
-
-
-/*
-
-concommand.Add("naruto_chakra_add", function(ply, cmd, args)
-    if args[1] == nil or args[2] == nil or !args[2]:IsValid(int) then
-        message("Erreur Commande : " .. cmd .. " steamid64 valeur", 1, 4)
-    else
-        local traget_ply = player.GetBySteamID64(args[1])
-        if traget_ply == false then
-            error_player()
-        else
-            net_to_server(cmd, traget_ply, args[2])
-            message("Vous avez augementez le chakra de " .. traget_ply:Nick() .. " de " .. util.TypeToString(args[2]), 0, 4)
-        end
-    end
-end)
-
-
-concommand.Add("naruto_chakra_set", function(ply, cmd, args)
-    if args[1] == nil or args[2] == nil or !args[2]:IsValid(int) then
-        message("Erreur Commande : " .. cmd .. " steamid64 valeur", 1, 4)
-    else
-        local traget_ply = player.GetBySteamID64(args[1])
-        if traget_ply == false then
-            error_player()
-        else
-            net_to_server(cmd, traget_ply, args[2])
-            message("Vous avez augementez le chakra de " .. traget_ply:Nick() .. " de " .. util.TypeToString(args[2]), 0, 4)
-        end
-    end
-end)
-
-concommand.Add("naruto_chakra_reset", function(ply, cmd, args)
-    if args[1] == nil then
-        message("Erreur Commande : " .. cmd .. " steamid64", 1, 4)
-    else
-        local traget_ply = player.GetBySteamID64(args[1])
-        if traget_ply == false then
-            error_player()
-        else
-            net_to_server(cmd, traget_ply)
-            message("Vous avez reset le chakra de " .. traget_ply:Nick(), 0, 4)
-        end
-    end
-end)
-
-concommand.Add("naruto_nature_set", function(ply, cmd, args)
-    if args[1] == nil or args[2] == nil or !args[2]:IsValid(int) then
-        message("Erreur Commande : " .. cmd .. " steamid64 valeur", 1, 4)
-    else
-        local traget_ply = player.GetBySteamID64(args[1])
-        if traget_ply == false then
-            error_player()
-        else
-            net_to_server(cmd, traget_ply, args[2])
-            message("Vous avez augementez le chakra de " .. traget_ply:Nick() .. " de " .. util.TypeToString(args[2]), 0, 4)
-        end
-    end
-end)
-
-concommand.Add("naruto_nature_reset", function(ply, cmd, args)
-    if args[1] == nil then
-        message("Erreur Commande : " .. cmd .. " steamid64", 1, 4)
-    else
-        local traget_ply = player.GetBySteamID64(args[1])
-        if traget_ply == false then
-            error_player()
-        else
-            net_to_server(cmd, traget_ply)
-            message("Vous avez reset le chakra de " .. traget_ply:Nick(), 0, 4)
-        end
-    end
-end)
-
-concommand.Add("naruto_info", function(ply, cmd, args)
-    if args[1] == nil then
-        message("Erreur Commande : " .. cmd .. " steamid64", 1, 4)
-    else
-        local traget_ply = player.GetBySteamID64(args[1])
-        if traget_ply == false then
-            error_player()
-        else
-            net_to_server(cmd, traget_ply)
-        end
-    end
-end)
-
-*/

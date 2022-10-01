@@ -14,7 +14,6 @@ hook.Add("PlayerInitialSpawn", "Naruto_Perma_Weapons", function(ply)
         skills_message(ply, message, 4)
     end
 end)
-
 hook.Add("PlayerSpawn", "Naruto_Perma_Weapons", function(ply)
     if file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") && ply:IsValid() && !ply:IsBot() then
         local table_data = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
@@ -33,7 +32,7 @@ hook.Add("PlayerSpawn", "Naruto_Perma_Weapons", function(ply)
                 naruto_notif(ply, "Votre nature n'est pas compatible avec " .. tostring(weapons_cant_give) .. " techniques que vous avez apris !", 1, 4)
             end
         end
-        local job_limit = Learn_Skills.Chakra_Limit_Job[team.GetName(ply:Team())]
+        local job_limit = Learn_Skills.Config.Chakra_Limit_By_Job[team.GetName(ply:Team())]
         if job_limit && (table_data.Chakra > job_limit) then
             ply:SetNWInt("BCMana", job_limit)
             ply:SetNWInt("BCMaxMana", job_limit)
@@ -45,32 +44,20 @@ hook.Add("PlayerSpawn", "Naruto_Perma_Weapons", function(ply)
         end
     end
 end)
-
 hook.Add("PlayerSay", "naruto_skills", function(ply, text)
 	if Learn_Skills.Commands_Chat[string.lower(text)] then
         naruto_skills(ply)
 	end
 end)
-
 hook.Add( "PlayerSay", "naruto_skills_admin", function(ply, text)
 	if Learn_Skills.Commands_Chat_Admin[string.lower(text)] and Learn_Skills.UserGroup[ply:GetUserGroup()] then
         naruto_skills_admin(ply)
 	end
 end)
-util.AddNetworkString("lean_skills_new_admin")
-hook.Add("PlayerSay", "lean_skills_new_admin", function(ply, text)
-	if Learn_Skills.Commands_Chat_New_Admin[string.lower(text)] && Learn_Skills.UserGroup[ply:GetUserGroup()] then
-        net.Start("lean_skills_new_admin")
-        net.Send(ply)
-	end
-end)
-
 hook.Add("StartCommand", "BCSkillsUse", function(ply, cmd)
     if ply:Alive() then
-
         if ply:KeyDown(IN_ATTACK) or ply:KeyDown(IN_USE) or ply:KeyDown(IN_ATTACK2) or ply:KeyDown(IN_ZOOM) or ply:KeyDown(IN_RELOAD) then
-			timer.Simple(0.5, function()
-                --print(ply:GetNWInt("BCMana"))
+			timer.Simple(1, function()
 				if ply:GetNWInt("BCMana") < 0 then
 					if ply:Alive() then
 						ply:Kill()
@@ -80,13 +67,5 @@ hook.Add("StartCommand", "BCSkillsUse", function(ply, cmd)
 				end
 			end)
         end
-
     end
 end)
-
---  hook.Add("Skills_Use_Chakra", "Skills_Use_Chakra", function(ply, value)
---      if ply:IsValid() and value:IsValid() then
---          local table_data = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
---
---      end
---  end)

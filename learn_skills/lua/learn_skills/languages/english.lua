@@ -20,6 +20,8 @@ Learn_Skills.Language.Logs_Learn = "{1} to teach {2} technique to {3} for {4}"
 Learn_Skills.Language.Logs_Reroll = "{1} used a reroll and became a {2}"
 Learn_Skills.Language.Logs_Reset = "{1} reset all data of {2}"
 
+Learn_Skills.Language.Logs_Nature_Set = "{1} set nature at {2} for {3}"
+
 Learn_Skills.Language.Logs_Weapon_Reset = "{1} reset all weapons of {2}"
 Learn_Skills.Language.Logs_Weapon_Give = "{1} give weapon {2} to {3}"
 Learn_Skills.Language.Logs_Weapon_Remove = "{1} remove weapon {2} to {3}"

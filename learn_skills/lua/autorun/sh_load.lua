@@ -18,9 +18,9 @@ Learn_Skills.Version = 1
 AddCSLuaFile(folder .. "/sh_config.lua")
 include(folder .. "/sh_config.lua")
 
-// Load LAnguage File
+// Load Language File
 AddCSLuaFile(folder .. "/languages/" .. string.lower(Learn_Skills.Config.Language) .. ".lua")
-include(folder .. "/language/" .. string.lower(Learn_Skills.Config.Language) .. ".lua")
+include(folder .. "/languages/" .. string.lower(Learn_Skills.Config.Language) .. ".lua")
 print("| Learn Skills | File Load | addons/" .. folder .. "/lua/" .. folder .. "/languages/" .. string.lower(Learn_Skills.Config.Language) .. ".lua")
 
 // Load Other Files
@@ -47,10 +47,12 @@ if SERVER then
 else
 	for k, v in ipairs(file.Find(folder .. "/server/*.lua", "LUA")) do
 		include(folder .. "/server/" .. v)
+        print("| Learn Skills | File Load | addons/" .. folder .. "/lua/" .. folder .. "/server/" .. v)
 	end
 
 	for k, v in ipairs(file.Find(folder .. "/client/*.lua", "LUA")) do
 		include(folder .. "/client/" .. v)
+        print("| Learn Skills | File Load | addons/" .. folder .. "/lua/" .. folder .. "/client/" .. v)
 	end
 end
 

@@ -23,17 +23,26 @@ Learn_Skills.Config = {
 */
 --[[ Main Configuration ]]--
 Learn_Skills.Config = {
-    ["Language"] = "French", --Learn_Skills.Config.Language = "French" -- French or English
+    ["Language"] = "French", -- French or English
     ["Advert"] = true, -- Made advert when somone learn a skill
+    ["Model"] = ""
 }
+
 --[[ Chakra Configuration ]]--
+Learn_Skills.Auto_Chakra = true -- Automatically give Chakra
+Learn_Skills.Chakra_Limit = 15000 -- Set Chakra Limit
+Learn_Skills.Chakra_Limit_Job = true -- Enable Chakra Limit by Job
+Learn_Skills.Config.Chakra_Limit_By_Job = { -- Set Chakra Limit by Job
+    ["Lobby"] = 2000,
+    ["Staff"] = 20000
+}
 Learn_Skills.Config.Random_Chakra_Max = 1000 -- Maximum Chakra Random Give at the First Join or Admin Reset
 Learn_Skills.Config.Random_Chakra_Min = 600 -- Minimum Chakra Random Give at the First Join or Admin Reset
 
-Learn_Skills.Auto_Chakra = true -- Automatically give Chakra
-Learn_Skills.Auto_Points = true -- Automatically give Points Shop Points
-Learn_Skills.Chakra_Limit_Job = true -- Enable Chakra Limit by Job
-Learn_Skills.Chakra_Limit = 15000 -- Set Chakra Limit
+--[[ Points Configuration ]]--
+Learn_Skills.Auto_Points = true -- Automatically give Points Shop Point
+
+--[[ Boost Configuration ]]--
 Learn_Skills.Boost = true -- Enable Boost Chakra & Points
 Learn_Skills.BoostGroup = {
     ["superadmin"]      =   true,
@@ -50,22 +59,28 @@ Learn_Skills.BoostGroup = {
 Learn_Skills.ULX_Commands = true -- Enable ULX Commands
 Learn_Skills.SAM_Commands = false -- Enable SAM Commands
 Learn_Skills.Consol_Commands = true -- Enable Consol Commands
-
 Learn_Skills.GroupCanAcces = {
     ["superadmin"]      =   true,
-    ["helper"]          =   true,
     ["super-admin"]     =   true,
     ["admin"]           =   true,
     ["modo"]            =   true,
     ["modo-test"]       =   true
 }
-
 Learn_Skills.GroupCanEdit = {
     ["superadmin"]      =   true,
-    ["helper"]          =   true,
     ["super-admin"]     =   true,
     ["admin"]           =   true,
     ["modo"]            =   true
+}
+Learn_Skills.Config.Admin_Group = {
+    ["superadmin"]      =   true,
+    ["super-admin"]     =   true,
+    ["admin"]           =   true,
+    ["modo"]            =   true
+}
+Learn_Skills.Config.Super_Admin_Group = {
+    ["superadmin"]      =   true,
+    ["super-admin"]     =   true
 }
 
 --[[ User Interface Configuration ]]--
@@ -77,7 +92,6 @@ Learn_Skills.UI_Color = {
     Valid = Color(70, 200, 70),
     Transparent = Color(255, 255, 255, 0)
 }
-
 Learn_Skills.Size = {
     x = 1080,
     y = 720
@@ -94,7 +108,6 @@ Learn_Skills.Commands_Chat = {
     ["/technique"] = true,
     ["!technique"] = true
 }
-
 Learn_Skills.Commands_Chat_Admin = {
     ["/skill_admin"] = true,
     ["/Skill_Admin"] = true,
@@ -106,11 +119,6 @@ Learn_Skills.Commands_Chat_Admin = {
     ["!techniques_admin"] = true,
     ["/technique_admin"] = true,
     ["!technique_admin"] = true
-}
-
---[[ Jobs Configuration ]]--
-Learn_Skills.Chakra_Limit_Job = {
-    ["Lobby"] = 2000
 }
 
 Learn_Skills.Commands_Chat_New_Admin = {
@@ -134,7 +142,21 @@ Learn_Skills.Warning_Nature = {
     ["Shoton"] = true,
     ["Purple Raiton"] = true
 }
-
+Learn_Skills.Config.Natures = {
+    ["Futton"] = true,
+    ["Bakuton"] = true,
+    ["Jinton"] = true,
+    ["Shakuton"] = true,
+    ["Jinton Dorée"] = true,
+    ["Ranton"] = true,
+    ["Shoton"] = true,
+    ["Purple Raiton"] = true,
+    ["Futon"] = true,
+    ["Doton"] = true,
+    ["Katon"] = true,
+    ["Suiton"] = true,
+    ["Raiton"] = true
+}
 --[[ Technical Configuration ]]--
 Learn_Skills.Technical = {
     ["Commun"] = {
