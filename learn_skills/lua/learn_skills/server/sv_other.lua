@@ -28,17 +28,17 @@ hook.Add("PlayerSay", "lean_skills_new_admin", function(ply, text)
 	end
 end)
 
-
 --      EMERGENCY CHAKRA DEBUG
 
-/*
 
-        for i, ply in ipairs( player.GetAll() ) do
-        	local table_data = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
-            ply:SetNWInt("BCMana", table_data.Chakra)
-            ply:SetNWInt("BCMaxMana", table_data.Chakra)
-            ply:ChatPrint("CHAKRA DEBUG OK")
-            RunConsoleCommand("say", "CHAKRA DEBUG OK")
-        end
 
-*/
+for i, ply in ipairs( player.GetAll() ) do
+	local table_data = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
+    table_data.Reroll = util.StringToType(table_data.Reroll, "int")
+    file.Write("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", util.TableToJSON(table_data))
+    ply:ChatPrint("REROLL DEBUG OK")
+    ply:ChatPrint("REROLL DEBUG OK")
+    ply:ChatPrint("REROLL DEBUG OK")
+    ply:ChatPrint("REROLL DEBUG OK")
+    ply:ChatPrint("REROLL DEBUG OK")
+end

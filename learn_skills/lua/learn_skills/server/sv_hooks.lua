@@ -17,6 +17,9 @@ end)
 hook.Add("PlayerSpawn", "Naruto_Perma_Weapons", function(ply)
     if file.Exists("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "data") && ply:IsValid() && !ply:IsBot() then
         local table_data = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", "DATA"))
+        table_data.Chakra = util.StringToType(table_data.Chakra, "int")
+        table_data.Reroll = util.StringToType(table_data.Reroll, "int")
+        file.Write("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", util.TableToJSON(table_data))
         if table_data.Weapons then
             local weapons_learn = Learn_Skills.Technical[table_data.Nature] or {}
             local weapons_cant_give = 0

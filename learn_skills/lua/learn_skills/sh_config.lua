@@ -76,7 +76,8 @@ Learn_Skills.Config.Admin_Group = {
     ["superadmin"]      =   true,
     ["super-admin"]     =   true,
     ["admin"]           =   true,
-    ["modo"]            =   true
+    ["modo"]            =   false,
+    ["modo-test"]       =   false
 }
 Learn_Skills.Config.Super_Admin_Group = {
     ["superadmin"]      =   true,

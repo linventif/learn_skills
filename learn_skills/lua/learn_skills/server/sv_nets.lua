@@ -40,7 +40,7 @@ timer.Create("Auto_Skills", 360, 0, function()
                 file.Write("linventif/learn_skills/players/" .. ply:SteamID64() .. ".json", util.TableToJSON(table))
             end
 
-            local job_limit = Learn_Skills.Chakra_Limit_Job[team.GetName(ply:Team())]
+            local job_limit = Learn_Skills.Config.Chakra_Limit_By_Job[team.GetName(ply:Team())]
             if job_limit && (table.Chakra > job_limit) then
                 print(table.Chakra)
                 ply:SetNWInt("BCMaxMana", job_limit)
@@ -190,6 +190,7 @@ net.Receive("skills_cmd", function(len, ply)
             naruto_notif(ply, "Vous avez enlever tout les armes de " .. cmd_args.target:Nick(), 0, 4)
             hook.Run("learn_skills_weapon_reset", ply, cmd_args.target)
         elseif cmd_args.cmd == "skills_chakra_give" then
+            cmd_args.value = util.StringToType(cmd_args.value, "int")
             local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
             if (skills_info.Chakra + cmd_args.value) > Learn_Skills.Chakra_Limit then
                 cmd_args.value = Learn_Skills.Chakra_Limit - skills_info.Chakra
@@ -203,6 +204,7 @@ net.Receive("skills_cmd", function(len, ply)
             naruto_notif(ply, "Vous avez donné " .. cmd_args.value .. " de Chakra a " .. cmd_args.target:Nick(), 0, 4)
             hook.Run("learn_skills_chakra_give", ply, cmd_args.target, cmd_args.value)
         elseif cmd_args.cmd == "skills_chakra_remove" then
+            cmd_args.value = util.StringToType(cmd_args.value, "int")
             local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
             if (skills_info.Chakra - cmd_args.value) < 0 then
                 skills_info.Chakra = 0
@@ -227,6 +229,7 @@ net.Receive("skills_cmd", function(len, ply)
             naruto_notif(ply, "Vous avez enlever tout le Chakra de " .. cmd_args.target:Nick(), 0, 4)
             hook.Run("learn_skills_chakra_reset", ply, cmd_args.target)
         elseif cmd_args.cmd == "skills_chakra_set" then
+            cmd_args.value = util.StringToType(cmd_args.value, "int")
             local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
             cmd_args.target:SetNWInt("BCMaxMana", cmd_args.value)
             cmd_args.target:SetNWInt("BCMana", cmd_args.value)
@@ -252,6 +255,7 @@ net.Receive("skills_cmd", function(len, ply)
                     skills_message(ply, message)
                 end
             elseif cmd_args.cmd == "skills_reroll_give" then
+                cmd_args.value = util.StringToType(cmd_args.value, "int")
                 local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
                 skills_info.Reroll = skills_info.Reroll + cmd_args.value
                 file.Write("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", util.TableToJSON(skills_info))
@@ -260,6 +264,7 @@ net.Receive("skills_cmd", function(len, ply)
                 naruto_notif(ply, "Vous avez donné " .. cmd_args.value .. " de Reroll a " .. cmd_args.target:Nick(), 0, 4)
                 hook.Run("learn_skills_reroll_give", ply, cmd_args.target, cmd_args.value)
             elseif cmd_args.cmd == "skills_reroll_set" then
+                cmd_args.value = util.StringToType(cmd_args.value, "int")
                 local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
                 skills_info.Reroll = cmd_args.value
                 file.Write("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", util.TableToJSON(skills_info))
@@ -276,6 +281,7 @@ net.Receive("skills_cmd", function(len, ply)
                 naruto_notif(ply, "Vous avez donné " .. cmd_args.value .. " de Reroll a " .. cmd_args.target:Nick(), 0, 4)
                 hook.Run("learn_skills_reroll_set", ply, cmd_args.target, cmd_args.value)
             elseif cmd_args.cmd == "skills_reroll_remove" then
+                cmd_args.value = util.StringToType(cmd_args.value, "int")
                 local skills_info = util.JSONToTable(file.Read("linventif/learn_skills/players/" .. cmd_args.target:SteamID64() .. ".json", "DATA"))
                 if (skills_info.Reroll - cmd_args.value) < 0 then
                     skills_info.Reroll = 0

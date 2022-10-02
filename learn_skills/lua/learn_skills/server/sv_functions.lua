@@ -64,7 +64,7 @@ function skills_nature()
     elseif nature == 7 then
         nature = "Ranton"
     elseif nature == 8 then
-        nature = "Puple Raiton"
+        nature = "Purple Raiton"
     elseif nature > 8 and nature < 47 then
         nature = "Futon"
     elseif nature > 46 and nature < 85 then
