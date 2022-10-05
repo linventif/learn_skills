@@ -1,4 +1,4 @@
-function ulx.food( calling_ply, target_plys )
+/*function ulx.skills_mana_give( calling_ply, target_plys )
 	for i=1, #target_plys do
         local skills_info = {
             ["Nature"] = skills_nature(),
@@ -25,4 +25,4 @@ end
 local ls_reset_all = ulx.command( "Learn Skills", "ulx ls_reset_all", ulx.food, "!ls_reset" )
 ls_reset_all:addParam{ type=ULib.cmds.PlayersArg }
 ls_reset_all:defaultAccess( ULib.ACCESS_SUPERADMIN )
---ls_reset_all:help(Learn_Skills.Language.ULX_Reset_All)
+--ls_reset_all:help(Learn_Skills.Language.ULX_Reset_All)*/

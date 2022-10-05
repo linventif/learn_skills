@@ -28,7 +28,25 @@ Learn_Skills.Config = {
     ["Model"] = ""
 }
 
---[[ Chakra Configuration ]]--
+--[[ Mana Configuration ]]--
+--[[
+skills.config.mana = {
+    ["limit"] = 15000,
+    ["job_limit"] = true,
+    ["boost"] = true,
+    ["boost_group"] = {
+        ["superadmin"] = true,
+        ["helper"] = true,
+        ["super-admin"] = true,
+        ["admin"] = true,
+        ["mono"] = true,
+        ["modo-test"] = true,
+        ["premium"] = true,
+        ["vip"] = true
+    }
+}
+
+]]--
 Learn_Skills.Auto_Chakra = true -- Automatically give Chakra
 Learn_Skills.Chakra_Limit = 15000 -- Set Chakra Limit
 Learn_Skills.Chakra_Limit_Job = true -- Enable Chakra Limit by Job

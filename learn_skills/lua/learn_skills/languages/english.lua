@@ -7,6 +7,12 @@ Learn_Skills.Language.Ad_Reset = "Vous avez étais Role Play Kill, une nouvelle 
 Learn_Skills.Language.Ad_New_Adventure_P1 = "Votre aventure commence en temps que "
 Learn_Skills.Language.Ad_New_Adventure_P2 = " plus d'info dans le /skills."
 
+// Panel Confirm
+Learn_Skills.Language.Panel_Cancel = "Cancel"
+Learn_Skills.Language.Panel_Comfirm = "Comfirm"
+Learn_Skills.Language.Panel_Confirm_Auto_RPK_M1 = "Are you sure you want to be Role Play Kill?"
+Learn_Skills.Language.Panel_Confirm_Auto_RPK_M2 = "This results in the deletion of your current character."
+
 // ULX Commands
 Learn_Skills.Language.ULX_Reset_All = "Réinitialise Toutes les Données du Joueur."
 Learn_Skills.Language.ULX_Reset_All_Log = "#A à réinitialise toutes les données de #T"
@@ -19,6 +25,7 @@ Learn_Skills.Language.Logs_Categorie_Admin = "Admin"
 Learn_Skills.Language.Logs_Learn = "{1} to teach {2} technique to {3} for {4}"
 Learn_Skills.Language.Logs_Reroll = "{1} used a reroll and became a {2}"
 Learn_Skills.Language.Logs_Reset = "{1} reset all data of {2}"
+Learn_Skills.Language.Logs_Auto_RPK = "{1} it's self rpk and became a {2}"
 
 Learn_Skills.Language.Logs_Nature_Set = "{1} set nature at {2} for {3}"
 

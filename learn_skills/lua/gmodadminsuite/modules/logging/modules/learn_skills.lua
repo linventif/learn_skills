@@ -20,6 +20,10 @@ MODULE:Hook("learn_skills_reroll", "learn_skills_reroll", function(admin, nature
     MODULE:Log(Learn_Skills.Language.Logs_Reroll, GAS.Logging:FormatPlayer(admin), GAS.Logging:Highlight(nature))
 end)
 
+MODULE:Hook("learn_skills_auto_rpk", "learn_skills_auto_rpk", function(ply, nature)
+    MODULE:Log(Learn_Skills.Language.Logs_Auto_RPK, GAS.Logging:FormatPlayer(ply), GAS.Logging:Highlight(nature))
+end)
+
 GAS.Logging:AddModule(MODULE)
 
 -----------------------------------------------------------------

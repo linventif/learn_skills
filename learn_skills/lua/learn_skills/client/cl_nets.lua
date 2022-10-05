@@ -221,7 +221,7 @@ net.Receive("naruto_skills", function()
                     draw.SimpleText("Votre nature actuel est rare êtes vous sur de la changer ?", "Custom_Font_II", 800/2, 50, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
                 end
                 local Button_no = vgui.Create("DButton", confirm)
-                Button_no:SetText("NON")
+                Button_no:SetText("Annuler")
                 Button_no:SetFont("Custom_Font_II")
                 Button_no:SetPos(150, 100)
                 Button_no:SetSize(200, 60)
@@ -234,7 +234,7 @@ net.Receive("naruto_skills", function()
                     confirm:Close()
                 end
                 local Button_ok = vgui.Create("DButton", confirm)
-                Button_ok:SetText("OUI")
+                Button_ok:SetText("Reroll")
                 Button_ok:SetFont("Custom_Font_II")
                 Button_ok:SetPos(800-350, 100)
                 Button_ok:SetSize(200, 60)
@@ -280,7 +280,7 @@ net.Receive("naruto_skills", function()
     end
 
     local Button_3 = vgui.Create("DButton", frame_main)
-    Button_3:SetText("Bientôt")
+    Button_3:SetText("Se RPK")
     Button_3:SetFont("Custom_Font_III")
     Button_3:SetPos(570, 260)
     Button_3:SetSize(200, 40)
@@ -288,8 +288,52 @@ net.Receive("naruto_skills", function()
     Button_3.Paint = function(s, w, h)
         draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
     end
-    --Button_3.DoClick = function()
-    --end
+    Button_3.DoClick = function()
+        local confirm = vgui.Create("DFrame")
+        confirm:SetSize(800, 200)
+        confirm:Center()
+        confirm:SetTitle(" ")
+        confirm:MakePopup()
+        confirm:SetDraggable(false)
+        confirm:ShowCloseButton(false)
+        confirm.Paint = function(s, w, h)
+            draw.RoundedBox(8, 0, 0, w, h, Learn_Skills.UI_Color.Other)
+            draw.RoundedBox(6, 4, 4, w-8, h-8, Learn_Skills.UI_Color.Background)
+            draw.SimpleText(Learn_Skills.Language.Panel_Confirm_Auto_RPK_M1, "Custom_Font_II", 800/2, 50, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+            draw.SimpleText(Learn_Skills.Language.Panel_Confirm_Auto_RPK_M2, "Custom_Font_I", 800/2, 80, Color(255,255,255,255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        end
+        local Button_no = vgui.Create("DButton", confirm)
+        Button_no:SetText(Learn_Skills.Language.Panel_Cancel)
+        Button_no:SetFont("Custom_Font_II")
+        Button_no:SetPos(150, 100)
+        Button_no:SetSize(200, 60)
+        Button_no:SetColor(Color(255,255,255))
+        Button_no.Paint = function(s, w, h)
+            draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
+            draw.RoundedBox(2, 4, 4, w-8, h-8, Learn_Skills.UI_Color.Valid)
+        end
+        Button_no.DoClick = function()
+            confirm:Close()
+        end
+        local Button_ok = vgui.Create("DButton", confirm)
+        Button_ok:SetText(Learn_Skills.Language.Panel_Comfirm)
+        Button_ok:SetFont("Custom_Font_II")
+        Button_ok:SetPos(800-350, 100)
+        Button_ok:SetSize(200, 60)
+        Button_ok:SetColor(Color(255,255,255))
+        Button_ok.Paint = function(s, w, h)
+            draw.RoundedBox(4, 0, 0, w, h, Learn_Skills.UI_Color.Other)
+            draw.RoundedBox(2, 4, 4, w-8, h-8, Learn_Skills.UI_Color.Danger)
+        end
+        Button_ok.DoClick = function()
+            confirm:Close()
+            frame_main:Close()
+            local cmd_args = {
+                ["net_id"] = "auto_rpk"
+            }
+            net_to_server(cmd_args, LocalPlayer())
+        end
+    end
 
     local Button_4 = vgui.Create("DButton", frame_main)
     Button_4:SetText("Bientôt")
