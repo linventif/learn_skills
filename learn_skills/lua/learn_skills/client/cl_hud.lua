@@ -1,8 +1,14 @@
 local hud = {}
 
-function hud:RespX(x) return x/1920*ScrW() end
-function hud:RespY(y) return y/1080*ScrH() end
-function hud:Resp(x, y) return hud:RespX(x), hud:RespY(y) end
+function hud:RespX(x)
+    return x/1920*ScrW()
+end
+function hud:RespY(y)
+    return y/1080*ScrH()
+end
+function hud:Resp(x, y)
+    return hud:RespX(x), hud:RespY(y)
+end
 
 surface.CreateFont( "Simple_Hud_Font", {
     font = "Arial",
